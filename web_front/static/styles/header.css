@@ -1,0 +1,20 @@
+header {
+    background: white;
+    height: 80px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 50px;
+}
+header .logo {
+    text-align: center;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Satisfy&display=swap');
+
+
+header .logo p{
+    font-family: 'Satisfy', cursive;
+    margin-top: -10px;
+    font-size: 300%;
+    color: #FF5757;
+}
