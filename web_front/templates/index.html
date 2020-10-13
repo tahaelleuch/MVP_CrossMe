@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>CrossMe</title>
-    <link rel="stylesheet" type="text/css" href="../static/styles/header.css">
-    <link rel="stylesheet" type="text/css" href="../static/styles/footer.css">
-    <link rel="stylesheet" type="text/css" href="../static/styles/autobox.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/header.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/autobox.css?{{ cache_id }}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../static/scripts/index.js"></script>
+    <script type="text/javascript" src="../static/scripts/index.js?{{ cache_id }}"></script>
+    <script type="text/javascript" src="../static/scripts/register.js?{{ cache_id }}"></script>
 </head>
 <body>
     <header>
@@ -18,18 +19,18 @@
     <article class="mybody">
         <div class="authobox">
             <div class="mysign">
-                <button class="signup">Sign Up</button>
-                <button class="signin">Sign In</button>
+                <button class="signup">Signup</button>
+                <button class="signin">Login</button>
             </div>
 
-            <div class="myform">
+            <form id="my-form" class="myform">
                 <input type="text" id="full_name" placeholder="Your Full Name"><br>
                 <input type="email" id="email" placeholder="Email"><br>
                 <input type="password" id="password" placeholder="PassWord"><br>
-            </div>
+            </form>
 
             <div class="mysub">
-                <button class="submit">Submit</button>
+                <button onclick="login()" form="my-form" class="submit">Sign Up</button>
             </div>
         </div>
 

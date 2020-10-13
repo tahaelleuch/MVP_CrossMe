@@ -22,3 +22,11 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def as_dict_nopwd(self):
+        a={c.name: getattr(self, c.name) for c in self.__table__.columns}
+        a.pop('password', None)
+        return a
