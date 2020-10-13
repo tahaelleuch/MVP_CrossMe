@@ -37,7 +37,6 @@ function login()
             });
         ajax.fail(function(data){
 
-
             alert(data);
         });
 
