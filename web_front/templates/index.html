@@ -23,14 +23,14 @@
                 <button class="signin">Login</button>
             </div>
 
-            <form id="my-form" class="myform">
-                <input type="text" id="full_name" placeholder="Your Full Name"><br>
-                <input type="email" id="email" placeholder="Email"><br>
-                <input type="password" id="password" placeholder="PassWord"><br>
+            <form id="my-form" method="POST" class="myform">
+                <input type="text" name="full_name" id="full_name" placeholder="Your Full Name"><br>
+                <input type="email"  name="email" id="email" placeholder="Email"><br>
+                <input type="password" name="password" id="password" placeholder="Password"><br>
             </form>
 
             <div class="mysub">
-                <button onclick="login()" form="my-form" class="submit">Sign Up</button>
+                <button form="my-form" class="submit">Sign Up</button>
             </div>
         </div>
 
