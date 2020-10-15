@@ -30,9 +30,13 @@ def logg():
         if request.form['email'] and request.form['password']:
             req_data = request.form.to_dict()
             users = storage.getbyemail(User, request.form['email'])
+            print(users.__class__.__name__)
             a = users.as_dict()
+            print(a)
+            print(a.__class__.__name__)
             b = User().verify_password(req_data['password'], a["password"])
             if b:
+                session['email'] = request.form['email']
                 return render_template('home.html', cache_id=uuid.uuid4(), user=request.form['email'])
             else:
                 return render_template('index.html', cache_id=uuid.uuid4(), error="Invalid Details")
