@@ -9,6 +9,7 @@ from models.base_model import BaseModel, Base
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import relationship
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(BaseModel, Base):
     """Representation of user"""
@@ -22,6 +23,14 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+
+    def hashpwd(self, pwd):
+        return generate_password_hash(pwd)
+
+
+    def verify_password(self, pwd, hash):
+        return check_password_hash(hash, pwd)
+
 
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

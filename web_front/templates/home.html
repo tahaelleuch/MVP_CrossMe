@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrossMe</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/header.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/autobox.css?{{ cache_id }}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../static/scripts/index.js?{{ cache_id }}"></script>
+    <script type="text/javascript" src="../static/scripts/register.js?{{ cache_id }}"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <p>CrossMe</p>
+        </div>
+    </header>
+    <article class="mybody">
+    <p> welcome {{ user }} </p>
+    <a href = '/logout'>click here to log out</a>
+    </article>
+    <footer>
+        <div class="myfoot">
+            <p>About us</p>
+        </div>
+    </footer>
+</body>
+</html>

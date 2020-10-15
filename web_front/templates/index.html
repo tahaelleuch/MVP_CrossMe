@@ -23,12 +23,14 @@
                 <button class="signin">Login</button>
             </div>
 
-            <form id="my-form" method="POST" class="myform">
+            <form id="my-form" method="POST" action="/register" class="myform">
                 <input type="text" name="full_name" id="full_name" placeholder="Your Full Name"><br>
                 <input type="email"  name="email" id="email" placeholder="Email"><br>
                 <input type="password" name="password" id="password" placeholder="Password"><br>
+        {% if error %}
+        <p class="error" <strong>Error:</strong> {{ error }} </p>
+      {% endif %}
             </form>
-
             <div class="mysub">
                 <button form="my-form" class="submit">Sign Up</button>
             </div>
