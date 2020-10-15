@@ -9,6 +9,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.post import Post
+import models
 
 classes = {"User": User, "Post": Post}
 
@@ -89,6 +90,18 @@ class DBStorage():
                 return value
 
         return None
+    def getbyemail(self, cls, email):
+        """
+        Returns the object based on the class name and its ID, or
+        None if not found
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.email == email):
+                return value
 
     def count(self, cls=None):
         """

@@ -27,8 +27,17 @@ def home():
 @app.route('/login',methods=['GET', 'POST'])
 def logg():
     if request.method == 'POST':
-        """CrossMe is live"""
-        return "hello"
+        if request.form['email'] and request.form['password']:
+            req_data = request.form.to_dict()
+            users = storage.getbyemail(User, request.form['email'])
+            a = users.as_dict()
+            b = User().verify_password(req_data['password'], a["password"])
+            if b:
+                return render_template('home.html', cache_id=uuid.uuid4(), user=request.form['email'])
+            else:
+                return render_template('index.html', cache_id=uuid.uuid4(), error="Invalid Details")
+        else:
+            return render_template('index.html', cache_id=uuid.uuid4(), error="Missing information")
     else:
         return render_template('index.html', cache_id=uuid.uuid4())
 
