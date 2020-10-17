@@ -51,3 +51,4 @@ class BaseModel:
             self.updated_at = datetime.utcnow()
             setattr(self, attr, new_value)
             models.storage.save()
+            models.storage.reload()

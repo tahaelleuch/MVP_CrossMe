@@ -18,7 +18,7 @@ import os
 
 scrap_app = Flask(__name__)
 cors = CORS(scrap_app)
-scrap_app.config["IMAGE_UPLOADS"] = "/Users/tahaelleuch/signuptest/MVP_CrossMe/image/"
+scrap_app.config["IMAGE_UPLOADS"] = "/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/"
 scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
 
 
@@ -62,7 +62,7 @@ def save_user_photo(user_id, access_token):
         forsave = urllib.request.urlopen(image_url)
         data = forsave.read()
         image = Image.open(io.BytesIO(data))
-        path = '/Users/tahaelleuch/signuptest/MVP_CrossMe/image/fb_' + user_id + '.png'
+        path = '/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/fb_' + user_id + '.png'
         image.save(path)
         succ_dict = {}
         succ_dict["mycode"] = "ok"
@@ -83,6 +83,10 @@ def save_user_photo(user_id, access_token):
 @scrap_app.route('/fb_post/<user_id>/<access_token>', methods=['GET'])
 def get_data_fb(user_id, access_token):
     """scrap data from facebook"""
+
+    my_user = storage.get(User, user_id)
+    my_user.update_attr("fb_access_token", access_token)
+
     r = requests.get('https://graph.facebook.com/me/feed?access_token=' + access_token)
     result = r.json()
     post_dict = {}
@@ -136,6 +140,7 @@ def get_data_fb(user_id, access_token):
         my_post.media_url = new_post["image_url"]
         my_post.save()
 
+
     post_dict["fb_last_post"] = post_list
 
     return make_response(jsonify(post_dict), 200)
@@ -161,6 +166,10 @@ def get_acess_token(user_id, ig_code):
         short_access_token).json()
 
     long_access_token = res["access_token"]
+
+    my_user = storage.get(User, user_id)
+    my_user.update_attr("ig_access_token", long_access_token)
+
     URL = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,timestamp&access_token=" + long_access_token
 
     r_media = requests.get(URL)
@@ -218,6 +227,9 @@ def get_acess_token(user_id, ig_code):
         my_post.post_text = new_post["message"]
         my_post.media_url = new_post["image_url"]
         my_post.save()
+
+
+
 
     post_dict["fb_last_post"] = post_list
 

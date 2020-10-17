@@ -68,7 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
         $.get('https://0.0.0.0:5001/profile_pic/' + user_id + '/' + accessToken, function (response) {
             if (response.mycode == "ok") {
               $('.getMyImage button').empty();
-              $('.getMyImage button').append('<p>done (get image here)</p>');
+              $('.getMyImage button').append('<p>done</p>' +
+              '<img src="/static/images/fb_' + user_id + '.png"' +
+               'alt="profilepic" width="500" height="500">'
+              );
             }
         });
     });

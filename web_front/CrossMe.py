@@ -85,8 +85,12 @@ def signUp():
         return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:
         if session:
-            user_info = storage.getbyemail(User, session['email']).as_dict()
-            return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
+            storage.reload()
+            user_info = storage.getbyemail(User, session['email']).as_dict_nopwd()
+            if user_info["fb_access_token"] or user_info["ig_access_token"]:
+                return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
+            else:
+                return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 

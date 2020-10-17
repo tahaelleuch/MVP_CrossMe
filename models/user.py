@@ -18,6 +18,8 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     full_name = Column(String(128), nullable=False)
     user_avatar = Column(String(500), nullable=False)
+    fb_access_token = Column(String(500), nullable=True)
+    ig_access_token = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
