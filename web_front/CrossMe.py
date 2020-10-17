@@ -7,7 +7,9 @@ import uuid
 from models import storage
 from models.user import User
 
+
 app = Flask(__name__)
+
 
 """
 @app.teardown_appcontext
@@ -44,7 +46,11 @@ def logg():
         else:
             return render_template('index.html', cache_id=uuid.uuid4(), error="Missing information")
     else:
-        return render_template('index.html', cache_id=uuid.uuid4())
+        if session:
+            email = session['email']
+            return render_template('home.html', cache_id=uuid.uuid4(), user=email)
+        else:
+            return render_template('index.html', cache_id=uuid.uuid4())
 
 @app.route('/logout',methods=['GET', 'POST'])
 def loggoo():
@@ -70,14 +76,19 @@ def signUp():
             if k == "password":
                 v = new.hashpwd(v)
             setattr(new, k, v)
+        setattr(new, "user_avatar", '/web_front/static/images/default-user-image.png')
         new.auth= True
         session['email'] = request.form['email']
         new.save()
         print(session)
-        return render_template('home.html', cache_id=uuid.uuid4(), user=request.form['email'])
+        my_user = storage.getbyemail(User, request.form['email'])
+        return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:
-        return render_template('index.html', cache_id=uuid.uuid4())
-
+        if session:
+            user_info = storage.getbyemail(User, session['email']).as_dict()
+            return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
+        else:
+            return render_template('index.html', cache_id=uuid.uuid4())
 
 
 if __name__ == "__main__":

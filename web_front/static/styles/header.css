@@ -18,3 +18,19 @@ header .logo p{
     font-size: 300%;
     color: #FF5757;
 }
+
+header .logout button{
+    text-align: center;
+    border-radius: 10px;
+    font-size: 18px;
+    background: #FF5A5F;
+    color: #FFFFFF;
+    border-style: none;
+    width: 10%;
+    height: 50px;
+}
+
+header .logout button:hover{
+    opacity: 0.9;
+    box-shadow: 0 0 4px 3px rgba(0,0,0,0.15);
+}

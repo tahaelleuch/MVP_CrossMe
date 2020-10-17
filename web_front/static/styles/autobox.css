@@ -141,6 +141,14 @@ body {
 .steptwo p {
     font-family: 'Cairo', sans-serif;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     color: rgb(255, 80, 80);
+}
+
+
+.steptwo h1 {
+    font-family: 'Cairo', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    color: #013ADF;
 }

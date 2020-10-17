@@ -1,0 +1,75 @@
+.insta {
+    margin-top: 30px;
+    margin-left: 28%;
+}
+
+.insta button {
+    position: absolute;
+    font-size: 1.3vw;
+    background: #E33E5C;
+    color: #FFFFFF;
+    height: 48px;
+    width: 30%;
+    border-style: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.1);
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+}
+.insta button:hover {
+    opacity: 0.9;
+    box-shadow: 0 0 4px 3px rgba(0,0,0,0.15);
+}
+
+.myfacebook {
+    margin-left:37%;
+    margin-right:50%;
+    margin-top: 120px;
+    width: 30%;
+    background-color: black;
+}
+
+.myfacebookapp {
+    margin-left:37%;
+    margin-right:50%;
+    width: 30%;
+}
+
+.nextbtn button{
+    margin-top:80px;
+    margin-left:88%;
+    border-radius: 10px;
+    font-size: 18px;
+    background: #FF5A5F;
+    color: #FFFFFF;
+    border-style: none;
+    width: 10%;
+    height: 50px;
+}
+
+.nextbtn button:hover{
+    opacity: 0.9;
+    box-shadow: 0 0 4px 3px rgba(0,0,0,0.15);
+}
+
+.myimport {
+    margin-left:35%;
+    margin-top:20px;
+    background: #FF5A5F;
+    border-radius: 4px;
+    font-size: 18px;
+    color: #FFFFFF;
+    border-style: none;
+}
+
+.custom-file-input {
+    margin-left:37%;
+}
+
+.getMyImage button{
+    margin-left:35%;
+    border:none;
+    background: red;
+    color: black;
+}

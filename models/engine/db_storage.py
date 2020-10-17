@@ -90,6 +90,7 @@ class DBStorage():
                 return value
 
         return None
+
     def getbyemail(self, cls, email):
         """
         Returns the object based on the class name and its ID, or

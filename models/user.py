@@ -17,6 +17,7 @@ class User(BaseModel, Base):
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     full_name = Column(String(128), nullable=False)
+    user_avatar = Column(String(500), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
@@ -30,7 +31,6 @@ class User(BaseModel, Base):
 
     def verify_password(self, pwd, hash):
         return check_password_hash(hash, pwd)
-
 
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrossMe</title>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '277108663347581',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v8.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <link rel="stylesheet" type="text/css" href="../static/styles/header.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/autobox.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/ig_btn.css?{{ cache_id }}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../static/scripts/index.js?{{ cache_id }}"></script>
+    <script type="text/javascript" src="../static/scripts/ig_btn.js?{{ cache_id }}"></script>
+    <script type="text/javascript" src="../static/scripts/register.js?{{ cache_id }}"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <p>CrossMe</p>
+        </div>
+        <div class="logout">
+            <button onclick="location.href='/logout'" type="button">Log Out</button>
+        </div>
+    </header>
+    <article class="mybody">
+        <div class="steptwo">
+            <p>One More Step...</p>
+            <h1>hello {{ user_info.full_name }} please login with your social media</h1>
+            <div id="myuser_id" hidden>{{ user_info.id }}</div>
+            <div class="insta">
+                <button type="button">
+                    Login With Instagram
+                </button>
+            </div>
+            <div class="myfacebook">
+                <div id="fb-root"></div>
+                <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width="" onlogin="checkLoginState();" scope="email,user_birthday,user_posts"></div>
+            </div>
+
+            <div class="nextbtn">
+                <button type="button">
+                    next
+                </button>
+            </div>
+        </div>
+    </article>
+    <footer>
+        <div class="myfoot">
+            <p>About us</p>
+        </div>
+    </footer>
+</body>
+</html>
