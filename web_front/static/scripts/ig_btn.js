@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
     $('.steptwo').empty();
     $('.steptwo').append(
       '<p>Select image<p>' +
-      '<form><div class="form-group">' +
+      '<form action="https://0.0.0.0:5001/image_test/' + user_id +
+      '" method="POST" enctype="multipart/form-data"><div class="form-group">' +
       '<label></label>' +
       '<div class="custom-file">' +
       '<input type="file" class="custom-file-input" name="image" id="image">' +
@@ -63,24 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       $('.steptwo').append('<div class="getMyImage"><button type="button">Click here to get your Facebook Photo</button></div>')
     }
-    $(document).ready(function(){
-        $('.myimport').click(function(){
-            var fd = new FormData();
-            console.log(fd);
-            var files = $('#image')[0].files[0];
-            fd.append('file',files);
-            alert("ok");
-            $.ajax({
-                crossDomain: true,
-                type: 'POST',
-                data: fd,
-                contentType: false,
-                processData: false,
-                url: 'https://0.0.0.0:5001/image_test/'}).done(function(data, status){
-                    window.location.replace("/login");
-                });
-        });
-    });
     $('.getMyImage button').click(function() {
         $.get('https://0.0.0.0:5001/profile_pic/' + user_id + '/' + accessToken, function (response) {
             if (response.mycode == "ok") {

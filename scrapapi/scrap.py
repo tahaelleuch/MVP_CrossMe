@@ -5,6 +5,8 @@ from flask import Flask, make_response, jsonify, redirect
 from flask import request as rq
 from flask_cors import CORS
 from models.post import Post
+from models.user import User
+from models import storage
 import requests
 import uuid
 from datetime import datetime
@@ -17,30 +19,42 @@ import os
 scrap_app = Flask(__name__)
 cors = CORS(scrap_app)
 scrap_app.config["IMAGE_UPLOADS"] = "/Users/tahaelleuch/signuptest/MVP_CrossMe/image/"
-scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["jpeg", "jpg", "png"]
+scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
 
 
-@scrap_app.route('/image_test/', methods=['POST'])
-def import_image():
+@scrap_app.route('/image_test/<user_id>', methods=['POST'])
+def import_image(user_id):
     """import image"""
-    print (rq.method)
-    if 'file' not in rq.files:
+    print (user_id)
+    if 'image' not in rq.files:
         print('No file part')
     if rq.method == "POST":
         if rq.files:
-            print (rq.files["file"])
-            image = rq.files["file"]
 
-            final_filename = secure_filename(image.filename)
+            image = rq.files["image"]
+            if "." in image.filename:
+                ext = image.filename.split(".")[1]
+                if ext.upper() not in scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+                    redirect('https://0.0.0.0:5000/error_photo')
+            else:
+                redirect('https://0.0.0.0:5000/error_photo')
+            new_filename = 'cm_' + user_id + '.' + ext
+
+            final_filename = secure_filename(new_filename)
             image.save(os.path.join(scrap_app.config["IMAGE_UPLOADS"], final_filename))
+            final_path = scrap_app.config["IMAGE_UPLOADS"] + final_filename
+
+            my_user = storage.get(User, user_id)
+            my_user.update_attr("user_avatar", final_path)
 
             print("Image saved")
 
-            return redirect('/login')
+            return redirect('https://0.0.0.0:5000/login')
+    return redirect('https://0.0.0.0:5000/login')
 
 @scrap_app.route('/profile_pic/<user_id>/<access_token>', methods=['GET'])
 def save_user_photo(user_id, access_token):
-    """get my user photo"""
+    """get my user photo and save it to db"""
     MYURL = 'https://graph.facebook.com/me/picture?redirect=false&height=500&access_token=' + access_token
     r = requests.get(MYURL).json()
     if r["data"]:
@@ -52,6 +66,10 @@ def save_user_photo(user_id, access_token):
         image.save(path)
         succ_dict = {}
         succ_dict["mycode"] = "ok"
+
+        my_user = storage.get(User, user_id)
+        my_user.update_attr("user_avatar", path)
+
         return make_response(jsonify(succ_dict), 200)
     err_dict = {}
     err_dict["mycode"] = "notok"
