@@ -62,7 +62,7 @@ body {
     height: 30px;
 }
 
-.myform input {
+.myform {
     position: relative;
     border-radius: 10px;
     width: 80%;
