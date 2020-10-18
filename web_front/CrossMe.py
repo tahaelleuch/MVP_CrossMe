@@ -7,8 +7,10 @@ import uuid
 from models import storage
 from models.user import User
 from models.post import Post
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.errorhandler(404)
 def resource_not_found(e):
@@ -36,13 +38,23 @@ def render_profile(user_id):
         uuid_obj = uuid.UUID(user_id, version=4)
     except ValueError:
         return redirect('/')
+    storage.reload()
     user = storage.get(User, user_id)
     user_info = user.to_dict()
     all_user_post = storage.getlist_by_attr(Post, user_id)
+    if "email" in session:
+        current_user_email = session['email']
+        if user_info["email"] == session['email']:
+            return render_template('profile.html',
+                                   cache_id=str(uuid.uuid4()),
+                                   user_info=user_info,
+                                   all_user_post=all_user_post,
+                                   is_user="ok")
     return render_template('profile.html',
                            cache_id=str(uuid.uuid4()),
                            user_info=user_info,
-                           all_user_post=all_user_post)
+                           all_user_post=all_user_post,
+                           is_user="notok")
 
 
 @app.route('/me', strict_slashes=False)
@@ -120,7 +132,7 @@ def signUp():
                 v = new.hashpwd(v)
             setattr(new, k, v)
         setattr(new, "user_avatar", '/web_front/static/images/default-user-image.png')
-        new.auth= True
+        new.auth = True
         session['email'] = request.form['email']
         new.save()
         my_user = storage.getbyemail(User, request.form['email'])

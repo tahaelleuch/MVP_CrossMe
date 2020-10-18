@@ -133,5 +133,6 @@ class DBStorage():
         for value in all_cls.values():
             if value.user_id == user_id:
                 list_val.append(value.to_dict())
+        return list_val
 
         return None

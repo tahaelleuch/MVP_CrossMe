@@ -25,7 +25,6 @@ scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
 @scrap_app.route('/image_test/<user_id>', methods=['POST'])
 def import_image(user_id):
     """import image"""
-    print (user_id)
     if 'image' not in rq.files:
         print('No file part')
     if rq.method == "POST":
@@ -33,7 +32,7 @@ def import_image(user_id):
 
             image = rq.files["image"]
             if "." in image.filename:
-                ext = image.filename.split(".")[1]
+                ext = image.filename.split(".")[-1]
                 if ext.upper() not in scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"]:
                     redirect('https://0.0.0.0:5000/error_photo')
             else:
@@ -42,12 +41,11 @@ def import_image(user_id):
 
             final_filename = secure_filename(new_filename)
             image.save(os.path.join(scrap_app.config["IMAGE_UPLOADS"], final_filename))
-            final_path = scrap_app.config["IMAGE_UPLOADS"] + final_filename
+            final_path = '/static/images/' + final_filename
 
             my_user = storage.get(User, user_id)
             my_user.update_attr("user_avatar", final_path)
 
-            print("Image saved")
 
             return redirect('https://0.0.0.0:5000/login')
     return redirect('https://0.0.0.0:5000/login')
@@ -62,13 +60,14 @@ def save_user_photo(user_id, access_token):
         forsave = urllib.request.urlopen(image_url)
         data = forsave.read()
         image = Image.open(io.BytesIO(data))
-        path = '/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/fb_' + user_id + '.png'
+        path = './web_front/static/images/fb_' + user_id + '.png'
         image.save(path)
         succ_dict = {}
         succ_dict["mycode"] = "ok"
 
         my_user = storage.get(User, user_id)
-        my_user.update_attr("user_avatar", path)
+        db_path = '/static/images/fb_' + user_id + '.png'
+        my_user.update_attr("user_avatar", db_path)
 
         return redirect('https://0.0.0.0:5000/login')
     err_dict = {}

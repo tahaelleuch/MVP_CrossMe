@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>{{ user_info.full_name }}</title>
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_header.css?{{cache_id}}">
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_body.css?{{cache_id}}">
     <link rel="stylesheet" type="text/css" href="../static/styles/my_footer.css?{{ cache_id }}">
@@ -13,96 +13,72 @@
     </header>
     <article class="mybody">
 
-        
+
 
         <div class="profileinfo">
-            <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/default-user-image.png" alt="profilepic" class="myimage">
-            <h1>Taha Elleuch</h1>
+            <img src="{{ user_info.user_avatar }}" alt="profilepic" class="myimage">
+            <h1>{{ user_info.full_name }}</h1>
             <div class="acounts">
-                <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/fb.png" alt="fb" class="smico">
-                <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/ig.png" alt="ig" class="smico">
+                {% if user_info.fb_access_token is not none %}
+                    <img src="/static/images/fb.png" alt="fb" class="smico">
+                {%endif %}
+                {% if user_info.ig_access_token is not none %}
+                    <img src="/static/images/ig.png" alt="ig" class="smico">
+                {%endif %}
             </div>
         </div>
 
         <div class="posts">
 
-            <div class="mypost" id="newpost">
-                <form action="/action_page.php" id="usrform">
-                    <input type="text" name="text" class="mytext" placeholder="Write something...">
-                    <input type="file" id="selectedFile" name="img" accept="image/*" class="myimport">
-                    <input type="submit" value="Share Now" class="subbtn">
-                </form>
-            </div>
-
-
-            <div class="mypost">
-                <div class="postsource" id="fromfb">
-                    <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/fb.png" alt="fb" class="smico">
+            {% if is_user == "ok" %}
+                <div class="mypost" id="newpost">
+                    <form action="/action_page.php" id="usrform">
+                        <input type="text" name="text" class="mytext" placeholder="Write something...">
+                        <input type="file" id="selectedFile" name="img" accept="image/*" class="myimport">
+                        <input type="submit" value="Share Now" class="subbtn">
+                    </form>
                 </div>
+            {%endif %}
+            {% if all_user_post is not none %}
+                {% for post in all_user_post %}
+                    <div class="mypost">
+                        {% if post.post_source == "FACEBOOK" %}
+                            <div class="postsource" id="fromfb">
+                                <img src="/static/images/fb.png" alt="fb" class="smico">
+                            </div>
+                        {% else %}
+                            <div class="postsource" id="fromig">
+                                <img src="/static/images/ig.png" alt="ig" class="smico">
+                            </div>
+                        {%endif %}
 
-                <div class="creatorinfo">
-                    <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/default-user-image.png" alt="profilepic" class="postimage">
-                    <section class="name">
-                        <h2>Taha Elleuch</h2>
-                        <h4>2019-01-02 18:24:58</h4>
-                    </section>
-                    <button class="delpost" alt="delete post">X</button>
-                </div>
+                        <div class="creatorinfo">
+                            <img src="{{ user_info.user_avatar }}" alt="profilepic" class="postimage">
+                            <section class="name">
+                                <h2>{{ user_info.full_name }}</h2>
+                                <h4>{{ post.creation_date }}</h4>
+                            </section>
+                            {% if is_user == "ok" %}
+                                <button class="delpost" alt="delete post">X</button>
+                            {%endif %}
+                        </div>
 
-                <div class="postinfo">
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+                        <div class="postinfo">
+                            <div class="message">
+                                {% if post.post_text != "NULL" %}
+                                    <p>{{ post.post_text }}</p>
+                                {%endif %}
+                                {% if post.media_url is not none %}
+                                    <img src="{{ post.media_url }}" alt="postimage" class="postimage">
+                                {%endif %}
+                            </div>
+
+
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="mypost">
-                <div class="postsource" id="fromig">
-                    <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/ig.png" alt="fb" class="smico">
-                </div>
-
-                <div class="creatorinfo">
-                    <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/default-user-image.png" alt="profilepic" class="postprofile">
-                    <section class="name">
-                        <h2>Taha Elleuch</h2>
-                        <h4>2019-12-28 17:41:43</h4>
-                    </section>
-                    <button class="delpost" alt="delete post">X</button>
-                </div>
-
-                <div class="postinfo">
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                        <img src="https://scontent.fnbe1-1.fna.fbcdn.net/v/t1.0-9/p960x960/80453280_101000878092272_1182228785181753344_o.jpg?_nc_cat=108&_nc_sid=7aed08&_nc_ohc=k9zkIVmwGYQAX-KqzgV&_nc_ht=scontent.fnbe1-1.fna&tp=6&oh=c919939fd3d7f46e7ca81d001eb87cb3&oe=5FB12690" alt="postimage" class="postimage">
-                    </div>
-                </div>
-            </div>
-
-            <div class="mypost">
-                <div class="postsource" id="fromfb">
-                    <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/fb.png" alt="fb" class="smico">
-                </div>
-
-                <div class="creatorinfo">
-                    <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/default-user-image.png" alt="profilepic" class="postprofile">
-                    <section class="name">
-                        <h2>Taha Elleuch</h2>
-                        <h4>2019-12-28 17:41:43</h4>
-                    </section>
-                    <button class="delpost" alt="delete post">X</button>
-                </div>
-
-                <div class="postinfo">
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                        <img src="https://scontent.fnbe1-1.fna.fbcdn.net/v/t1.0-9/p960x960/80453280_101000878092272_1182228785181753344_o.jpg?_nc_cat=108&_nc_sid=7aed08&_nc_ohc=k9zkIVmwGYQAX-KqzgV&_nc_ht=scontent.fnbe1-1.fna&tp=6&oh=c919939fd3d7f46e7ca81d001eb87cb3&oe=5FB12690" alt="postimage" class="postimage">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
+                {% endfor %}
+            {%endif %}
 
     </article>
     <footer>
