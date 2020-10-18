@@ -48,14 +48,12 @@ def logg():
             return render_template('index.html', cache_id=uuid.uuid4(), error="Missing information")
     else:
         if session:
-            email = session['email']
-            users = storage.getbyemail(User, email)
-            a = users.as_dict()
-            print(a)
-            if a["fb_access_token"] or a["ig_access_token"]:
+            storage.reload()
+            user_info = storage.getbyemail(User, session['email']).as_dict_nopwd()
+            if user_info["fb_access_token"] or user_info["ig_access_token"]:
                 return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
             else:
-                return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
+                return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
@@ -87,11 +85,11 @@ def signUp():
         new.auth= True
         session['email'] = request.form['email']
         new.save()
-        print(session)
         my_user = storage.getbyemail(User, request.form['email'])
         return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:
         if session:
+            storage.reload()
             user_info = storage.getbyemail(User, session['email']).as_dict_nopwd()
             if user_info["fb_access_token"] or user_info["ig_access_token"]:
                 return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
