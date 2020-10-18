@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class User(BaseModel, Base):
     """Representation of user"""
     __tablename__ = 'user'
-    email = Column(String(128), nullable=False)
+    email = Column(String(128), primary_key=True)
     password = Column(String(128), nullable=False)
     full_name = Column(String(128), nullable=False)
     user_avatar = Column(String(500), nullable=False)

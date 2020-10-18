@@ -63,7 +63,6 @@ class DBStorage():
         """delete from the current database session obj if not None"""
         if obj:
             self.__session.delete(obj)
-            self.reload()
 
     def reload(self):
         """reload data from db"""
@@ -104,6 +103,8 @@ class DBStorage():
         for value in all_cls.values():
             if (value.email == email):
                 return value
+
+        return None
 
     def count(self, cls=None):
         """

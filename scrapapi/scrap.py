@@ -70,7 +70,7 @@ def save_user_photo(user_id, access_token):
         my_user = storage.get(User, user_id)
         my_user.update_attr("user_avatar", path)
 
-        return make_response(jsonify(succ_dict), 200)
+        return redirect('https://0.0.0.0:5000/login')
     err_dict = {}
     err_dict["mycode"] = "notok"
     return make_response(jsonify(err_dict), 200)
