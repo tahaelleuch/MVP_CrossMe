@@ -18,7 +18,7 @@ import os
 
 scrap_app = Flask(__name__)
 cors = CORS(scrap_app)
-scrap_app.config["IMAGE_UPLOADS"] = "/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/"
+scrap_app.config["IMAGE_UPLOADS"] = "./web_front/static/images/"
 scrap_app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
 
 

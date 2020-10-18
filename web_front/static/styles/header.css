@@ -19,3 +19,6 @@ header .logo p{
     font-size: 300%;
     color: #FF5757;
 }
+div#notfound {
+    text-align: center;
+}

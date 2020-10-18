@@ -11,11 +11,11 @@ from models.user import User
 app = Flask(__name__)
 
 
-"""
-@app.teardown_appcontext
-def teardo_db(session):
-    models.storage.close()
-"""
+@app.errorhandler(404)
+def resource_not_found(e):
+    return  render_template('404.html'), 404
+
+
 
 
 @app.route('/')
@@ -48,7 +48,11 @@ def logg():
     else:
         if session:
             email = session['email']
-            return render_template('home.html', cache_id=uuid.uuid4(), user=email)
+            print(session)
+            if session["fb_access_token"] or session["ig_access_token"]:
+                return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
+            else:
+                return render_template('steptwo.html', cache_id=uuid.uuid4(), user=session['email'])
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
