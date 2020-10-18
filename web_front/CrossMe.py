@@ -8,7 +8,6 @@ from models import storage
 from models.user import User
 
 app = Flask(__name__)
-storage.reload()
 
 @app.errorhandler(404)
 def resource_not_found(e):
@@ -93,7 +92,6 @@ def signUp():
         return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:
         if session:
-            storage.reload()
             user_info = storage.getbyemail(User, session['email']).as_dict_nopwd()
             if user_info["fb_access_token"] or user_info["ig_access_token"]:
                 return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
