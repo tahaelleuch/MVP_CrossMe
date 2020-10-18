@@ -5,7 +5,7 @@
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_header.css?{{cache_id}}">
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_body.css?{{cache_id}}">
-    <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/my_footer.css?{{ cache_id }}">
 </head>
 <body>
     <header>
@@ -23,6 +23,16 @@
         </div>
 
         <div class="posts">
+
+            <div class="mypost" id="newpost">
+                <form action="/action_page.php" id="usrform">
+                    <input type="text" name="text" class="mytext" placeholder="Write something...">
+                    <input type="file" id="selectedFile" name="img" accept="image/*" class="myimport">
+                    <input type="submit" value="Share Now" class="subbtn">
+                </form>
+            </div>
+
+
             <div class="mypost">
                 <div class="postsource" id="fromfb">
                     <img src="/Users/tahaelleuch/signuptest/MVP_CrossMe/web_front/static/images/fb.png" alt="fb" class="smico">
