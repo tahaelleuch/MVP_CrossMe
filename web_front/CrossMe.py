@@ -7,9 +7,8 @@ import uuid
 from models import storage
 from models.user import User
 
-
 app = Flask(__name__)
-
+storage.reload()
 
 @app.errorhandler(404)
 def resource_not_found(e):
@@ -40,7 +39,10 @@ def logg():
             b = User().verify_password(req_data['password'], a["password"])
             if b:
                 session['email'] = request.form['email']
-                return render_template('home.html', cache_id=uuid.uuid4(), user=request.form['email'])
+                if a["fb_access_token"] or a["ig_access_token"]:
+                    return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
+                else:
+                    return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
             else:
                 return render_template('index.html', cache_id=uuid.uuid4(), error="Invalid Details")
         else:
@@ -48,11 +50,13 @@ def logg():
     else:
         if session:
             email = session['email']
-            print(session)
-            if session["fb_access_token"] or session["ig_access_token"]:
+            users = storage.getbyemail(User, email)
+            a = users.as_dict()
+            print(a)
+            if a["fb_access_token"] or a["ig_access_token"]:
                 return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
             else:
-                return render_template('steptwo.html', cache_id=uuid.uuid4(), user=session['email'])
+                return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
