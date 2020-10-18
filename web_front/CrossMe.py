@@ -6,6 +6,7 @@ from flask_login import LoginManager, UserMixin, login_required, login_user, cur
 import uuid
 from models import storage
 from models.user import User
+from models.post import Post
 
 app = Flask(__name__)
 
@@ -22,6 +23,43 @@ def home():
         email = session['email']
         return render_template('home.html', cache_id=uuid.uuid4(), user=email)
     return render_template('index.html', cache_id=uuid.uuid4())
+
+
+@app.route('/profile/<user_id>', strict_slashes=False)
+def render_profile(user_id):
+    """
+    Render The profile page
+    if user doesn't exist or invalid id redirect to home
+
+    """
+    try:
+        uuid_obj = uuid.UUID(user_id, version=4)
+    except ValueError:
+        return redirect('/')
+    user = storage.get(User, user_id)
+    user_info = user.to_dict()
+    all_user_post = storage.getlist_by_attr(Post, user_id)
+    return render_template('profile.html',
+                           cache_id=str(uuid.uuid4()),
+                           user_info=user_info,
+                           all_user_post=all_user_post)
+
+
+@app.route('/me', strict_slashes=False)
+def render_me():
+    """
+    Render The profile page
+    User will be redirected by it id to his profile
+    """
+    if "email" in session:
+        user_email = session['email']
+        me_user = storage.getbyemail(User, user_email)
+        user_id = me_user.id
+        NEWURL = '/profile/' + user_id
+        return redirect(NEWURL)
+    else:
+        redirect('/')
+
 
 
 @app.route('/login',methods=['GET', 'POST'])

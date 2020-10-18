@@ -120,3 +120,18 @@ class DBStorage():
             count = len(models.storage.all(cls).values())
 
         return count
+
+    def getlist_by_attr(self, cls, user_id):
+        """
+        get all posts of a user by user_id
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        list_val = []
+        for value in all_cls.values():
+            if value.user_id == user_id:
+                list_val.append(value.to_dict())
+
+        return None
