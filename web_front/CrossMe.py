@@ -131,7 +131,7 @@ def signUp():
             if k == "password":
                 v = new.hashpwd(v)
             setattr(new, k, v)
-        setattr(new, "user_avatar", '/web_front/static/images/default-user-image.png')
+        setattr(new, "user_avatar", '/static/images/default-user-image.png')
         new.auth = True
         session['email'] = request.form['email']
         new.save()

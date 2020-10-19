@@ -14,6 +14,9 @@ app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+app.config["IMAGE_UPLOADS"] = "./web_front/static/images/"
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
+
 
 @app.teardown_appcontext
 def close_db(error):

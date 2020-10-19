@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_header.css?{{cache_id}}">
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_body.css?{{cache_id}}">
     <link rel="stylesheet" type="text/css" href="../static/styles/my_footer.css?{{ cache_id }}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../static/scripts/my_profile.js?{{cache_id}}"></script>
 </head>
 <body>
     <header>
@@ -26,29 +28,33 @@
                     <img src="/static/images/ig.png" alt="ig" class="smico">
                 {%endif %}
             </div>
+            <div id="myuser_id" hidden>{{ user_info.id }}</div>
         </div>
 
         <div class="posts">
 
             {% if is_user == "ok" %}
                 <div class="mypost" id="newpost">
-                    <form action="/action_page.php" id="usrform">
-                        <input type="text" name="text" class="mytext" placeholder="Write something...">
-                        <input type="file" id="selectedFile" name="img" accept="image/*" class="myimport">
-                        <input type="submit" value="Share Now" class="subbtn">
+                    <form id="usrform">
+                        <input type="text" name="text" class="mytext" id="mystatus" placeholder="Write something...">
+                        <input type="file" id="selectedFile" name="image" accept="image/*" class="myimport">
+                        <input type="button" value="Share Now" class="subbtn">
                     </form>
                 </div>
             {%endif %}
             {% if all_user_post is not none %}
                 {% for post in all_user_post %}
-                    <div class="mypost">
+                    <div class="mypost" id="{{ post.id }}">
                         {% if post.post_source == "FACEBOOK" %}
                             <div class="postsource" id="fromfb">
                                 <img src="/static/images/fb.png" alt="fb" class="smico">
                             </div>
-                        {% else %}
+                        {% elif post.post_source == "Instagram" %}
                             <div class="postsource" id="fromig">
                                 <img src="/static/images/ig.png" alt="ig" class="smico">
+                            </div>
+                        {% else %}
+                            <div class="postsource" id="fromcm">
                             </div>
                         {%endif %}
 
@@ -59,7 +65,7 @@
                                 <h4>{{ post.creation_date }}</h4>
                             </section>
                             {% if is_user == "ok" %}
-                                <button class="delpost" alt="delete post">X</button>
+                                <button class="delpost" alt="{{ post.id }}">X</button>
                             {%endif %}
                         </div>
 
