@@ -148,7 +148,34 @@ def signUp():
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
-
+@app.route('/search/',methods=['GET', 'POST'])
+def CMsearch():
+    if "email" in session:
+        if request.method == "POST":
+            pattern = request.form['pt']
+            if len(pattern) is None or len(pattern) > 25:
+                return render_template('search.html', cache_id=uuid.uuid4(), result=[])
+            if "@" in pattern:
+                my_user = storage.getbyemail(User, pattern)
+                if my_user:
+                    return render_template('search.html', cache_id=uuid.uuid4(), result=my_user)
+                else:
+                    return render_template('search.html', cache_id=uuid.uuid4(), result=[])
+            strsplitted = pattern.split()
+            allusers =  storage.all(User)
+            my_list = []
+            for i in allusers.values():
+                if i.full_name == pattern:
+                    my_list.append(i)
+                else:
+                    for j in strsplitted:
+                        if j in i.full_name.split():
+                            my_list.append(i)
+            return render_template('search.html', cache_id=uuid.uuid4(), result=my_list)
+        return render_template('search.html', cache_id=uuid.uuid4(), result=[])
+    else:
+        return redirect('/')
+    
 if __name__ == "__main__":
     app.secret_key = 'mycrossme'
     """ Main Function """
