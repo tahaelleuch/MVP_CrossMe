@@ -8,3 +8,4 @@ from api.v1.views.index import *
 from api.v1.views.user import *
 from api.v1.views.post import *
 from api.v1.views.search import *
+from api.v1.views.follow import *

@@ -7,9 +7,10 @@ import models
 from models.user import User
 from models.base_model import BaseModel
 from models.post import Post
+from models.follow import Follow
 import shlex
 
-classes = {"User": User, "BaseModel": BaseModel, "Post": Post}
+classes = {"User": User, "BaseModel": BaseModel, "Post": Post, "Follow": Follow}
 
 class CMCommand(cmd.Cmd):
     """ HBNH console """
@@ -48,6 +49,8 @@ class CMCommand(cmd.Cmd):
             else:
                 value = int(value)
             setattr(new_instance, key, value)
+        if classes[all_args[0]] == Follow:
+            new_instance.follow_code = 1
         print(new_instance.id)
         new_instance.save()
 

@@ -9,9 +9,10 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.post import Post
+from models.follow import Follow
 import models
 
-classes = {"User": User, "Post": Post}
+classes = {"User": User, "Post": Post, "Follow": Follow}
 
 class DBStorage():
     """DBStorage class"""
@@ -105,6 +106,44 @@ class DBStorage():
                 return value
 
         return None
+
+    def get_by_followed_id(self, cls, user_id):
+        """
+        get a list of cls id with followed
+        """
+        if cls not in classes.values():
+            return None
+        all_cls = models.storage.all(cls)
+        obj_list = []
+        for value in all_cls.values():
+            if value.user_id == user_id:
+                obj_list.append(value)
+        return obj_list
+
+    def get_by_two(self, cls, follower, followed):
+        """get follow instance with the two ids"""
+        if cls not in classes.values():
+            return None
+
+        if follower is not None and followed is not None:
+            follow_list = models.storage.get_by_followed_id(cls, followed)
+            print (follow_list)
+            for obj in follow_list:
+                if obj.follower_id == follower:
+                    return obj
+        return None
+
+    def follower_number(self, cls, user_id):
+        """count a user followers"""
+        if cls not in classes.values():
+            return None
+
+        if user_id is not None:
+            follow_list = models.storage.get_by_followed_id(cls, user_id)
+            number_of_follow = len(follow_list)
+            return (str(number_of_follow))
+
+
 
     def count(self, cls=None):
         """

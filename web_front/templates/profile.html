@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../static/styles/my_footer.css?{{ cache_id }}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../static/scripts/my_profile.js?{{cache_id}}"></script>
+    <script type="text/javascript" src="../static/scripts/follow.js?{{cache_id}}"></script>
 </head>
 <body>
     <header>
@@ -28,6 +29,26 @@
                     <img src="/static/images/ig.png" alt="ig" class="smico">
                 {%endif %}
             </div>
+            {% if follow_code != "9" %}
+                <div class="followplace">
+                    <button type="button" class="followbtn" alt="{{ follow_code }}">
+                        {% if follow_code == "0" %}
+                            + Follow
+                        {%endif %}
+                        {% if follow_code == "1" %}
+                            Followed
+                        {%endif %}
+                        {% if follow_code == "2" %}
+                            Follow Back
+                        {%endif %}
+                        {% if follow_code == "3" %}
+                            You
+                        {%endif %}
+
+                        <p>{{ number_of_followers }} Followers</p>
+                    </button>
+                </div>
+            {%endif %}
             <div id="myuser_id" hidden>{{ user_info.id }}</div>
         </div>
 

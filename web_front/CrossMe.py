@@ -1,13 +1,16 @@
 #!/usr/bin/python3
 """ Starts a Flask CrossMe app """
 
-from flask import Flask, render_template, request, json, url_for, redirect,flash, session
+from flask import Flask, render_template, request, json, url_for, redirect, flash, session
+from flask import make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_required, login_user, current_user
 import uuid
 from models import storage
 from models.user import User
 from models.post import Post
+from models.follow import Follow
 from flask_cors import CORS
+import requests as rq
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -41,20 +44,67 @@ def render_profile(user_id):
     storage.reload()
     user = storage.get(User, user_id)
     user_info = user.to_dict()
+
     all_user_post = storage.getlist_by_attr(Post, user_id)
+
+    number_of_followers = storage.follower_number(Follow, user_id)
+
     if "email" in session:
+
         current_user_email = session['email']
-        if user_info["email"] == session['email']:
+
+        if user_info["email"] == current_user_email:
+            follow_code = "3"
             return render_template('profile.html',
                                    cache_id=str(uuid.uuid4()),
                                    user_info=user_info,
                                    all_user_post=all_user_post,
-                                   is_user="ok")
+                                   is_user="ok",
+                                   follow_code=follow_code,
+                                   number_of_followers=number_of_followers)
+
+        else:
+            my_current_user = storage.getbyemail(User, current_user_email)
+            current_user_id = my_current_user.id
+            follow_obj = storage.get_by_two(Follow, current_user_id, user_id)
+            if follow_obj:
+                follow_code = str(follow_obj.follow_code)
+                if follow_code != "0":
+                    rev_obj = storage.get_by_two(Follow, user_id, current_user_id)
+                    if rev_obj:
+                        if follow_obj.follow_code == 1 and rev_obj.follow_code == 1:
+                            follow_code == "1"
+                        elif rev_obj.follow_code == 1:
+                            follow_code = "2"
+            else:
+                follow_code = "0"
+                rev_obj = storage.get_by_two(Follow, user_id, current_user_id)
+                if rev_obj:
+                    if follow_obj:
+                        if follow_obj.follow_code == 1 and rev_obj.follow_code == 1:
+                            follow_code == "1"
+                        elif rev_obj.follow_code == 1:
+                            follow_code = "2"
+                    else:
+                        follow_code = "2"
+
+
+            print (follow_code)
+            return render_template('profile.html',
+                                   cache_id=str(uuid.uuid4()),
+                                   user_info=user_info,
+                                   all_user_post=all_user_post,
+                                   is_user="notok",
+                                   follow_code=follow_code,
+                                   number_of_followers=number_of_followers)
+
     return render_template('profile.html',
                            cache_id=str(uuid.uuid4()),
                            user_info=user_info,
                            all_user_post=all_user_post,
-                           is_user="notok")
+                           is_user="notok",
+                           follow_code="9",
+                           number_of_followers=number_of_followers)
 
 
 @app.route('/me', strict_slashes=False)
@@ -107,10 +157,12 @@ def logg():
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
+
 @app.route('/logout',methods=['GET', 'POST'])
 def loggoo():
         session.pop('email', None)
         return render_template('index.html', cache_id=uuid.uuid4())
+
 
 @app.route('/register',methods=['GET', 'POST'])
 def signUp():
@@ -148,6 +200,7 @@ def signUp():
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
+
 @app.route('/search/',methods=['GET', 'POST'])
 def CMsearch():
     if "email" in session:
@@ -175,7 +228,40 @@ def CMsearch():
         return render_template('search.html', cache_id=uuid.uuid4(), result=[])
     else:
         return redirect('/')
-    
+
+
+@app.route('/flw/<followed_id>',methods=['POST'])
+def make_follow(followed_id):
+    """send request to the api to make a follow"""
+    if request.method == "POST":
+        if "email" in session:
+            user_email = session['email']
+            user_obj = storage.getbyemail(User, user_email)
+            follower_id = user_obj.id
+            response = rq.post('https://0.0.0.0:5002/api/v1/new_follow/' +
+                               follower_id + '/' + followed_id + '/onetwo', verify=False)
+            succ = {}
+            succ["status"] = "ok"
+            return make_response(jsonify(succ), 200)
+    return redirect('/profile/' + followed_id)
+
+
+@app.route('/flw/<followed_id>',methods=['DELETE'])
+def del_follow(followed_id):
+    """send request to the qpi to delet a follow"""
+    if request.method == "DELETE":
+        if "email" in session:
+            user_email = session['email']
+            user_obj = storage.getbyemail(User, user_email)
+            follower_id = user_obj.id
+            response = rq.delete('https://0.0.0.0:5002/api/v1/del_follow/' +
+                               follower_id + '/' + followed_id + '/onetwo', verify=False)
+            succ = {}
+            succ["status"] = "ok"
+            return make_response(jsonify(succ), 200)
+    return redirect('/profile/' + followed_id)
+
+
 if __name__ == "__main__":
     app.secret_key = 'mycrossme'
     """ Main Function """
