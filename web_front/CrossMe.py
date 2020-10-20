@@ -138,10 +138,12 @@ def logg():
             b = User().verify_password(req_data['password'], a["password"])
             if b:
                 session['email'] = request.form['email']
-                if a["fb_access_token"] or a["ig_access_token"]:
-                    return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
-                else:
+                if not a["fb_access_token"] and not a["ig_access_token"]:
                     return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
+                elif not a["fb_access_token"] and not a["ig_access_token"]:
+                    return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
+                else:
+                    return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
             else:
                 return render_template('index.html', cache_id=uuid.uuid4(), error="Invalid Details")
         else:
@@ -150,10 +152,12 @@ def logg():
         if session:
             storage.reload()
             user_info = storage.getbyemail(User, session['email']).as_dict_nopwd()
-            if user_info["fb_access_token"] or user_info["ig_access_token"]:
-                return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
-            else:
+            if not user_info["fb_access_token"] and not user_info["ig_access_token"]:
                 return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
+            elif not user_info["fb_access_token"] or not user_info["ig_access_token"]:
+                return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
+            else:
+                return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 
@@ -193,10 +197,12 @@ def signUp():
         if session:
             storage.reload()
             user_info = storage.getbyemail(User, session['email']).as_dict_nopwd()
-            if user_info["fb_access_token"] or user_info["ig_access_token"]:
-                return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
-            else:
+            if not user_info["fb_access_token"] and not user_info["ig_access_token"]:
                 return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
+            elif not user_info["fb_access_token"] or not user_info["ig_access_token"]:
+                return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=user_info)
+            else:
+                return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
         else:
             return render_template('index.html', cache_id=uuid.uuid4())
 

@@ -22,3 +22,8 @@ header .logo p{
 div#notfound {
     text-align: center;
 }
+
+div .welcome {
+    text-align: center;
+    color: #737474;
+}

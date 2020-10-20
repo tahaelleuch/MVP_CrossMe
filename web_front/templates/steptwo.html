@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,7 @@
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
     </script>
+    
     <link rel="stylesheet" type="text/css" href="../static/styles/header.css?{{ cache_id }}">
     <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
     <link rel="stylesheet" type="text/css" href="../static/styles/autobox.css?{{ cache_id }}">
@@ -45,7 +47,9 @@
     <article class="mybody">
         <div class="steptwo">
             <p>One More Step...</p>
-            <h1>hello {{ user_info.full_name }} please login with your social media</h1>
+            <div class="welcome">
+            <h1>Welcome {{ user_info.full_name }}, Please login with your social media</h1>
+            </div>
             <div id="myuser_id" hidden>{{ user_info.id }}</div>
             <div class="insta">
                 <button type="button">
