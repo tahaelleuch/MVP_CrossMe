@@ -22,11 +22,57 @@ def resource_not_found(e):
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET'], strict_slashes=False)
 def home():
+    """
+    serve home page
+    """
     if "email" in session:
+        ten_post = []
         email = session['email']
-        return render_template('home.html', cache_id=uuid.uuid4(), user=email)
+        user = storage.getbyemail(User, email)
+        user_dict = user.to_dict()
+        user_id = user_dict["id"]
+
+        user = storage.get(User, user_id)
+
+        user_follows = user.follow_list()
+
+        if not user_follows:
+            return render_template('home.html',
+                                   cache_id=uuid.uuid4(),
+                                   post_st=ten_post,
+                                   user_info=user_dict)
+
+        friends_posts = []
+        for friend_id in user_follows:
+            post_lst = storage.getlist_by_attr(Post, friend_id)
+            friends_posts = friends_posts + post_lst
+
+        if not friends_posts:
+            return render_template('home.html',
+                                   cache_id=uuid.uuid4(),
+                                   ten_post=ten_post,
+                                   user_info=user_dict)
+
+        sorted_post_list = storage.sort_posts(friends_posts)
+
+
+        for i in range(10):
+            if len(sorted_post_list) < i + 1:
+                break
+            post = sorted_post_list[i]
+            friend_profile_obj = storage.get(User, post["user_id"])
+            friend_profile = friend_profile_obj.to_dict()
+            post["full_name"] = friend_profile["full_name"]
+            post["user_avatar"] = friend_profile["user_avatar"]
+            ten_post.append(post)
+
+        return render_template('home.html',
+                               cache_id=uuid.uuid4(),
+                               ten_post=ten_post,
+                               user_info=user_dict)
+
     return render_template('index.html', cache_id=uuid.uuid4())
 
 
@@ -207,7 +253,7 @@ def signUp():
             return render_template('index.html', cache_id=uuid.uuid4())
 
 
-@app.route('/search/',methods=['GET', 'POST'])
+@app.route('/search/', methods=['GET', 'POST'])
 def CMsearch():
     if "email" in session:
         storage.reload()
@@ -218,7 +264,10 @@ def CMsearch():
         if request.method == "POST":
             pattern = request.form['pt']
             if len(pattern) is None or len(pattern) > 25:
-                return render_template('search.html', cache_id=uuid.uuid4(), result=[],me=user_id)
+                return render_template('search.html',
+                                       cache_id=uuid.uuid4(),
+                                       result=[],
+                                       me=user_id)
             if "@" in pattern:
                 my_list = []
                 my_user = storage.getbyemail(User, pattern)
@@ -226,9 +275,15 @@ def CMsearch():
                     rslt["status"] = "ok"
                     rslt["user"] = my_user
                     my_list.append(rslt)
-                    return render_template('search.html', cache_id=uuid.uuid4(), result=my_list,me=user_id)
+                    return render_template('search.html',
+                                           cache_id=uuid.uuid4(),
+                                           result=my_list,
+                                           me=user_id)
                 else:
-                    return render_template('search.html', cache_id=uuid.uuid4(), result=[],me=user_id)
+                    return render_template('search.html',
+                                           cache_id=uuid.uuid4(),
+                                           result=[],
+                                           me=user_id)
             strsplitted = pattern.split()
             allusers =  storage.all(User)
             my_list = []
@@ -251,8 +306,14 @@ def CMsearch():
                             rslt["user"] = i
                             my_list.append(rslt)
                             rslt = {}
-            return render_template('search.html', cache_id=uuid.uuid4(), result=my_list,me=user_id)
-        return render_template('search.html', cache_id=uuid.uuid4(), result=[],me=user_id)
+            return render_template('search.html',
+                                   cache_id=uuid.uuid4(),
+                                   result=my_list,
+                                   me=user_id)
+        return render_template('search.html',
+                               cache_id=uuid.uuid4(),
+                               result=[],
+                               me=user_id)
     else:
         return redirect('/')
 
@@ -293,3 +354,4 @@ if __name__ == "__main__":
     app.secret_key = 'mycrossme'
     """ Main Function """
     app.run(host='0.0.0.0', port=5000, ssl_context=('./ssl/server.crt', './ssl/server.key'))
+
