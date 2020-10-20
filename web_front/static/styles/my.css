@@ -235,3 +235,14 @@ width: 85px;
 height: 30px;
 cursor: hand;		    
 }
+.container .follwed {
+  color: #524949;
+  position:absolute;
+  right: 400px;
+  font-family: "Helvetica";
+  font-size: 10pt;
+  background-color: #ffffff;
+  width: 85px;
+  height: 30px;
+  cursor: hand;		    
+  }

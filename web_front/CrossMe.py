@@ -210,28 +210,49 @@ def signUp():
 @app.route('/search/',methods=['GET', 'POST'])
 def CMsearch():
     if "email" in session:
+        storage.reload()
+        selfuserobj=storage.getbyemail(User, session["email"])
+        user_id = selfuserobj.id
+        followinglist=selfuserobj.follow_list()
+        rslt = {}
         if request.method == "POST":
             pattern = request.form['pt']
             if len(pattern) is None or len(pattern) > 25:
-                return render_template('search.html', cache_id=uuid.uuid4(), result=[])
+                return render_template('search.html', cache_id=uuid.uuid4(), result=[],me=user_id)
             if "@" in pattern:
+                my_list = []
                 my_user = storage.getbyemail(User, pattern)
                 if my_user:
-                    return render_template('search.html', cache_id=uuid.uuid4(), result=my_user)
+                    rslt["status"] = "ok"
+                    rslt["user"] = my_user
+                    my_list.append(rslt)
+                    return render_template('search.html', cache_id=uuid.uuid4(), result=my_list,me=user_id)
                 else:
-                    return render_template('search.html', cache_id=uuid.uuid4(), result=[])
+                    return render_template('search.html', cache_id=uuid.uuid4(), result=[],me=user_id)
             strsplitted = pattern.split()
             allusers =  storage.all(User)
             my_list = []
             for i in allusers.values():
                 if i.full_name == pattern:
-                    my_list.append(i)
+                    if i.id in followinglist:
+                        rslt["status"] = "ok"
+                    else:
+                        rslt["status"] = "no"
+                    rslt["user"] = i
+                    my_list.append(rslt)
+                    rslt = {}
                 else:
                     for j in strsplitted:
                         if j in i.full_name.split():
-                            my_list.append(i)
-            return render_template('search.html', cache_id=uuid.uuid4(), result=my_list)
-        return render_template('search.html', cache_id=uuid.uuid4(), result=[])
+                            if i.id in followinglist:
+                                rslt["status"] = "ok"
+                            else:
+                                rslt["status"] = "no"
+                            rslt["user"] = i
+                            my_list.append(rslt)
+                            rslt = {}
+            return render_template('search.html', cache_id=uuid.uuid4(), result=my_list,me=user_id)
+        return render_template('search.html', cache_id=uuid.uuid4(), result=[],me=user_id)
     else:
         return redirect('/')
 

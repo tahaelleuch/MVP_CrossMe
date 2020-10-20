@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../static/scripts/index.js?{{ cache_id }}"></script>
     <script type="text/javascript" src="../static/scripts/register.js?{{ cache_id }}"></script>
+    <script type="text/javascript" src="../static/scripts/searchfollow.js?{{cache_id}}"></script>
 </head>
 <body>
     <header>
@@ -40,10 +41,19 @@
     <div class="container"> No user Found  </div>
     {% else %}
     {% for i in result %}
+    
     <div class="container"> 
-    <div class="avat"> <img src={{i.user_avatar}} class="imageprofile"> </div>
-    <div class="userfullname"><a href="/profile/{{i.id}}"> {{i.full_name}}</a></div>
-    <button class="follow-button">+ Follow</button>	
+    <div class="avat"> <img src={{i.user.user_avatar}} class="imageprofile"> </div>
+    <div class="userfullname"><a href="/profile/{{i.user.id}}"> {{i.user.full_name}}</a></div>
+      {% if i.status == "no" %}
+    <button alt="{{i.user.id}}" id="{{i.user.id}}" class="follow-button">+ Follow</button>
+
+    <div hidden id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed </div>	
+        {% else %}
+          <div class="follwed">Followed</div>	
+
+        {% endif %}
+
     </div>
     {% endfor %}
     {% endif %}
@@ -54,6 +64,7 @@
 
         <div class="myfoot">
             <p>Powered by Foued Lamine And Taha Elleuch</p>
+                          <div id="myuser_id" hidden>{{ me }}</div>
         </div>
               {% endblock %}
 
