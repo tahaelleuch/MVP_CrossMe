@@ -1,62 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CrossMe</title>
-    <link rel="stylesheet" type="text/css" href="../static/styles/my.css?{{ cache_id }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../static/scripts/index.js?{{ cache_id }}"></script>
-    <script type="text/javascript" src="../static/scripts/register.js?{{ cache_id }}"></script>
-</head>
-<body>
-    <header>
-  <nav class="navbar">
-    <div class="content">
-      <div class="logo">
-        <a href="#">CrossMe</a>
-      </div>
-      <ul class="menu-list">
-        <div class="icon cancel-btn">
-          <i class="fas fa-times"></i>
-        </div>
-        <form class="myform" method="POST" action="/search">
-        <input type="text" name="pt" placeholder="Search CrossMe">
-      <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
-        <li><a href="/">Home</a></li>
-        <li><a href="/me">Profile</a></li>
-        <li><a href="#">{{ user }}</a></li>
-        <li><a href="/logout">Logout</a></li>
-      </ul>
-      <div class="icon menu-btn">
-        <i class="fas fa-bars"></i>
-      </div>
-    </div>
-  </nav>
-    </header>
-    {% if result == [] %}
-    <div class="container"> No user Found  </div>
-    {% else %}
-    {% for i in result %}
-    <div class="container"> 
-    <div class="avat"> <img src={{i.user_avatar}} class="imageprofile"> </div>
-    <div class="userfullname"><a href="/profile/{{i.id}}"> {{i.full_name}}</a></div>
-    <button class="follow-button">+ Follow</button>	
-    </div>
-    {% endfor %}
-    {% endif %}
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <title>Profile</title>
+     <link rel="stylesheet" type="text/css" href="../static/styles/profile_header.css?{{cache_id}}">
+     <link rel="stylesheet" type="text/css" href="../static/styles/profile_body.css?{{cache_id}}">
+     <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
+     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+     <script type="text/javascript" src="../static/scripts/load_more.js?{{cache_id}}"></script>
+ </head>
+ <body>
+     <header>
+         <div class="logo"><p>CrossMe</p></div>
+     </header>
+     <article class="mybody">
+
+         <div id="myuser_id" hidden>{{ user_info.id }}</div>
+
+                <div class="mypost" id="newpost">
+                    <form id="usrform">
+                        <input type="text" name="text" class="mytext" id="mystatus" placeholder="Write something...">
+                        <input type="file" id="selectedFile" name="image" accept="image/*" class="myimport">
+                        <input type="button" value="Share Now" class="subbtn">
+                    </form>
+                </div>
+
+         {% if ten_post is not none %}
+            {% for post in ten_post %}
+                    <div class="mypost" id="{{ post.id }}">
+                        {% if post.post_source == "FACEBOOK" %}
+                            <div class="postsource" id="fromfb">
+                                <img src="/static/images/fb.png" alt="fb" class="smico">
+                            </div>
+                        {% elif post.post_source == "Instagram" %}
+                            <div class="postsource" id="fromig">
+                                <img src="/static/images/ig.png" alt="ig" class="smico">
+                            </div>
+                        {% else %}
+                            <div class="postsource" id="fromcm">
+                            </div>
+                        {%endif %}
+
+                        <div class="creatorinfo">
+                            <img src="{{ post.user_avatar }}" alt="profilepic" class="postimage">
+                            <section class="name">
+                                <a href="/profile/{{ post.user_id }}"><h2>{{ post.full_name }}</h2></a>
+                                <h4>{{ post.creation_date }}</h4>
+                            </section>
+                        </div>
+
+                        <div class="postinfo">
+                            <div class="message">
+                                {% if post.post_text != "NULL" %}
+                                    <p>{{ post.post_text }}</p>
+                                {%endif %}
+                                {% if post.media_url is not none %}
+                                    <img src="{{ post.media_url }}" alt="postimage" class="postimage">
+                                {%endif %}
+                            </div>
 
 
+                        </div>
+                    </div>
+            {% endfor %}
+         {%endif %}
 
-    <footer>      {% block footer %}
+         <div class="loadmore">
+             <button type="button">Load More ...</button>
+         </div>
 
-        <div class="myfoot">
-            <p>Powered by Foued Lamine And Taha Elleuch</p>
-        </div>
-              {% endblock %}
 
-    </footer>
-</body>
-</html>
+     </article>
+     <footer>
+         <div class="myfoot">
+             <p>About us</p>
+         </div>
+     </footer>
+ </body>
+ </html>

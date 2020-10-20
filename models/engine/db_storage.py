@@ -187,14 +187,15 @@ class DBStorage():
                 list_val.append(value.to_dict())
 
         if cls == Post:
-            sort_posts(list_val)
+            models.storage.sort_posts(list_val)
 
         return list_val
 
 
-def sort_posts(post_lists):
-    """sort a list of post by creation date"""
-    my_new_list = post_lists
-    my_new_list.sort(key=lambda date: date["creation_date"])
-    my_new_list.reverse()
-    return my_new_list
+    def sort_posts(self, post_lists):
+        """sort a list of post by creation date"""
+        my_new_list = post_lists
+        my_new_list.sort(key=lambda date: date["creation_date"])
+        my_new_list.reverse()
+        return my_new_list
+

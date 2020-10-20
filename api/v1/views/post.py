@@ -202,16 +202,80 @@ def make_new_post(user_id):
             my_post["user_full_name"] = my_user["full_name"]
             my_post["user_avatar"] = my_user["user_avatar"]
 
-            if not my_post["post_text"]:
-                my_post["post_text"] = "__"
+            if not my_post["post_text"] or my_post["post_text"] == "NULL":
+                my_post["post_text"] = ""
 
 
             if "media_url" not in my_post.keys():
                 my_post["media_url"] = "nomedia"
 
+            storage.reload()
             return make_response(jsonify(my_post), 200)
 
     unknown_dict = {}
     unknown_dict["error"] = "unknown error"
     unknown_dict["error_code"] = "0"
     return make_response(jsonify(unknown_dict), 404)
+
+
+@app_views.route('/friendposts/<user_id>/<page_num>', methods=['GET'], strict_slashes=False)
+def get_friend_posts(user_id, page_num=0):
+    """
+    get list of friend post
+    Args:
+        user_id : current user connected id
+    Return:
+
+    """
+    response_dict = {}
+    response_dict["error"] = "invalid parameter"
+    response_dict["usage"] = "/post/<post_id>"
+    response_dict["error_code"] = "8"
+
+    try:
+        uuid_obj = UUID(user_id, version=4)
+    except ValueError:
+        return make_response(jsonify(response_dict), 202)
+
+    user = storage.get(User, user_id)
+    if not user:
+        return make_response(jsonify(response_dict), 202)
+
+    user_follows = user.follow_list()
+
+    if not user_follows:
+        return make_response(jsonify({}), 200)
+
+    friends_posts = []
+    for friend_id in user_follows:
+        post_lst = storage.getlist_by_attr(Post, friend_id)
+        friends_posts = friends_posts + post_lst
+
+    if not friends_posts:
+        return make_response(jsonify({}), 200)
+
+    sorted_post_list = storage.sort_posts(friends_posts)
+
+    ten_post = []
+    index = 10 * int(page_num)
+
+    for i in range(10):
+        if len(sorted_post_list) < index + 1:
+            break
+        post = sorted_post_list[index]
+        friend_profile_obj = storage.get(User, post["user_id"])
+        friend_profile = friend_profile_obj.to_dict()
+        post["full_name"] = friend_profile["full_name"]
+        post["user_avatar"] = friend_profile["user_avatar"]
+        if post["post_text"] == "NULL":
+            post["post_text"] = " "
+        if post["media_url"] is None:
+            post["media_url"] = "nomedia"
+        ten_post.append(post)
+        index = index + 1
+
+
+    such_dict = {}
+    such_dict["data"] = ten_post
+    return make_response(jsonify(such_dict), 200)
+
