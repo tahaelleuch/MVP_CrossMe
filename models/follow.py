@@ -23,23 +23,3 @@ class Follow(BaseModel, Base):
         """get status code of user"""
         obj = models.storage.get_by_two(self, follower, followed)
         return obj.follow_code
-
-    def follower_list(self, followed):
-        """get follower list of a user"""
-        if followed is not None:
-            follow_list_obj = models.storage.get_by_followed_id(self, followed)
-            follow_list = []
-            for obj in follow_list_obj:
-                follow_list.append(obj.follower_id)
-            return follow_list
-        return None
-"""
-    def check_follow_back(self):
-        #check if follower is following back
-        obj = models.storage.get_by_two(self, self.user_id, self.follower_id):
-        if obj.follow_code == 1:
-            obj.follow_code = 2
-            obj.save()
-            if self.follow_code == 1:
-                self.follow_code = 2
-"""
