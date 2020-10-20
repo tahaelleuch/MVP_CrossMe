@@ -120,6 +120,19 @@ class DBStorage():
                 obj_list.append(value)
         return obj_list
 
+    def get_by_follower_id(self, cls, follower_id):
+        """
+        get a list of user follow
+        """
+        if cls not in classes.values():
+            return None
+        all_cls = models.storage.all(cls)
+        obj_list = []
+        for value in all_cls.values():
+            if value.follower_id == follower_id:
+                obj_list.append(value)
+        return obj_list
+
     def get_by_two(self, cls, follower, followed):
         """get follow instance with the two ids"""
         if cls not in classes.values():
@@ -172,6 +185,16 @@ class DBStorage():
         for value in all_cls.values():
             if value.user_id == user_id:
                 list_val.append(value.to_dict())
+
+        if cls == Post:
+            sort_posts(list_val)
+
         return list_val
 
-        return None
+
+def sort_posts(post_lists):
+    """sort a list of post by creation date"""
+    my_new_list = post_lists
+    my_new_list.sort(key=lambda date: date["creation_date"])
+    my_new_list.reverse()
+    return my_new_list

@@ -52,6 +52,14 @@ class User(BaseModel, Base):
             follow_list.append(obj.follower_id)
         return follow_list
 
+    def follow_list(self):
+        """get list of user follow"""
+        follow_list_obj = models.storage.get_by_follower_id(Follow, self.id)
+        follow_list = []
+        for obj in follow_list_obj:
+            follow_list.append(obj.user_id)
+        return follow_list
+
     def post_list(self):
         """get post list of a user"""
         post_list_obj = models.storage.getlist_by_attr(Post, self.id)
