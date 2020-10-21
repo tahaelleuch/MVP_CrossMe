@@ -311,9 +311,7 @@ def CMsearch():
                                    result=my_list,
                                    me=user_id)
         return render_template('search.html',
-                               cache_id=uuid.uuid4(),
-                               result=[],
-                               me=user_id)
+                               cache_id=uuid.uuid4(), me=user_id)
     else:
         return redirect('/')
 

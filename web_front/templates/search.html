@@ -37,7 +37,9 @@
     </div>
   </nav>
     </header>
-    {% if result == [] %}
+     {% if result is none %}
+    <div class="container"> No user Found  </div>
+    {% elif result == [] %}
     <div class="container"> No user Found  </div>
     {% else %}
     {% for i in result %}
@@ -50,7 +52,7 @@
 
     <button hidden alt="{{i.user.id}}" id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed </button>	
         {% else %}
-          <button alt="{{i.user.id}}" class="follwed">Followed</div>	
+          <button alt="{{i.user.id}}" id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed</button>	
     <button hidden alt="{{i.user.id}}" id="{{i.user.id}}" class="follow-button">+ Follow</button>
         {% endif %}
 
