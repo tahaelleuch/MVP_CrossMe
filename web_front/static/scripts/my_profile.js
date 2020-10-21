@@ -1,7 +1,30 @@
 let user_id;
 
 document.addEventListener('DOMContentLoaded', function () {
-  //$(' .delpost ').click(function () {
+
+  // update profile pic
+  $('#file-upload').change(function() {
+    console.log("done");
+    user_id = document.getElementById("myuser_id").textContent;
+    var fd = new FormData();
+    var files = $('#file-upload')[0].files;
+    if ( files.length > 0 ){
+      fd.append('image',files[0]);
+    }
+    $.ajax({
+      type: 'POST',
+      data: fd,
+      enctype: 'multipart/form-data',
+      processData: false,
+      contentType: false,
+      url: 'https://0.0.0.0:5001/image_test/' + user_id,
+      success: function ( response ) {
+        location.reload(true);
+      }
+    });
+  });
+
+  //delete post
   $(document).on('click', '.delpost', function() {
     var post_id = $(this).attr('alt');
     $.ajax({
@@ -13,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
-  //$(' .subbtn ').click(function () {
+  //create a new post
   $(document).on('click', '.subbtn', function() {
     user_id = document.getElementById("myuser_id").textContent;
     var status = $("#mystatus").val();

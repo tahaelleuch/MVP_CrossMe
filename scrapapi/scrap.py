@@ -39,12 +39,17 @@ def import_image(user_id):
                 redirect('https://0.0.0.0:5000/error_photo')
             new_filename = 'cm_' + user_id + '.' + ext
 
+            if os.path.exists(scrap_app.config["IMAGE_UPLOADS"] + new_filename):
+                os.remove(scrap_app.config["IMAGE_UPLOADS"] + new_filename)
+                print ("deleted")
+
             final_filename = secure_filename(new_filename)
             image.save(os.path.join(scrap_app.config["IMAGE_UPLOADS"], final_filename))
             final_path = '/static/images/' + final_filename
 
             my_user = storage.get(User, user_id)
             my_user.update_attr("user_avatar", final_path)
+            storage.reload()
 
 
             return redirect('https://0.0.0.0:5000/login')

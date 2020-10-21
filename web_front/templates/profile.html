@@ -19,7 +19,19 @@
 
 
         <div class="profileinfo">
-            <img src="{{ user_info.user_avatar }}" alt="profilepic" class="myimage">
+            <img src="{{ user_info.user_avatar + '?' + cache_id }}" alt="profilepic" class="myimage">
+
+            {% if is_user == "ok" %}
+                <div class="updatephoto">
+                    <form>
+                        <label for="file-upload" class="custom-file-upload">
+                            <img src="/static/images/camera.png" alt="pic" class="changephoto">
+                        </label>
+                        <input id="file-upload" name='image' type="file" style="display:none;">
+                    </form>
+                </div>
+            {%endif %}
+
             <h1>{{ user_info.full_name }}</h1>
             <div class="acounts">
                 {% if user_info.fb_access_token is not none %}
