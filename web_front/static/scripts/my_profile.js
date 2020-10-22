@@ -4,78 +4,50 @@ let current_user_id;
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  //make a like
+  num_like = document.getElementById("numberoflike").textContent;
+
+  //make a like function
+
   $(document).on('click', '.heart', function() {
-      var post_id_like = $(this).attr('id');
-      var post_id = $( this ).attr('alt');
-      var targ_id = $( this ).attr('title');
+    var post_id = $( this ).attr('alt');
+    var targ_id = $( this ).attr('title');
+    user_id = document.getElementById("current_user_id").textContent;
 
-      num_like = document.getElementById(post_id + 'okok').textContent;
-
-      var numok = $('#numok').text()
-      user_id = document.getElementById("myuser_id").textContent;
-
-      current_user_id = document.getElementById("current_user_id").textContent;
-
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: 'https://0.0.0.0:5002/api/v1/like/' + post_id,
-        data: JSON.stringify({'source_user_id':current_user_id,'target_user_id':targ_id,'post_id':post_id}),
-        success: function (data) {
-          $( '#' + post_id_like).toggleClass('likedheart').removeClass('heart');
-          let my_num = parseInt(num_like)
-          //check if no likes bofore
-          //if ($('.likenum').is(':empty')){
-          if (my_num === 0) {
-            $( '#' + post_id + 'num' ).append(
-                '<div class="liked"><h1>1</h1></div>'
-            )
-          } else {
-            $( '#' + post_id + 'num' ).empty();
-            $( '#' + post_id + 'num' ).append(
-                '<div class="liked"><h1>' + num_like + '</h1></div>'
-            );
-            num_like = (parseInt(num_like) + 1).toString();
-            location.reload(true);
-          }
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: 'https://0.0.0.0:5002/api/v1/like/' + post_id,
+      data: JSON.stringify({'source_user_id':user_id,'target_user_id':targ_id,'post_id':post_id}),
+      success: function (data) {
+        $( '#' + post_id + 'like' ).toggleClass('likedheart').removeClass('heart');
+        $( '#' + post_id + 'num' ).empty();
+        if (data.num != "0") {
+          $( '#' + post_id + 'num' ).append(
+            '<div class="liked"><h1>' + data.num + '</h1></div>'
+          );
         }
-      });
+      }
+    });
   });
 
-
-
-  // make a dislike (delete like)
   $(document).on('click', '.likedheart', function() {
-      var post_id_like = $(this).attr('id');
-      var post_id = $( this ).attr('alt');
+    var post_id = $( this ).attr('alt');
+    var targ_id = $( this ).attr('title');
+    user_id = document.getElementById("current_user_id").textContent;
 
-      num_like = document.getElementById(post_id + 'okok').textContent;
-
-      current_user_id = document.getElementById("current_user_id").textContent;
-
-      var numok = $('#numok').text()
-      user_id = document.getElementById("myuser_id").textContent;
-
-      $.ajax({
-        url: 'https://0.0.0.0:5002/api/v1/react/' + post_id + '/' + current_user_id,
-        type: 'DELETE',
-        success: function (data) {
-            $( '#' + post_id_like).toggleClass('heart').removeClass('likedheart');
-
-            //check if just you liked
-            if (parseInt(num_like) === 0) {
-              $( '#' + post_id + 'num' ).empty();
-            } else {
-              num_like = (parseInt(num_like) - 1).toString();
-              $( '#' + post_id + 'num' ).empty();
-              $( '#' + post_id + 'num' ).append(
-                '<div class="liked"><h1>' + num_like + '</h1></div>'
-              );
-            }
-            location.reload(true);
+    $.ajax({
+      url: 'https://0.0.0.0:5002/api/v1/react/' + post_id + '/' + user_id,
+      type: 'DELETE',
+      success: function (data) {
+        $( '#' + post_id + 'like' ).toggleClass('heart').removeClass('likedheart');
+        $( '#' + post_id + 'num' ).empty();
+        if (data.num != "0") {
+          $( '#' + post_id + 'num' ).append(
+            '<div class="liked"><h1>' + data.num + '</h1></div>'
+          );
         }
-      });
+      }
+    });
   });
 
 

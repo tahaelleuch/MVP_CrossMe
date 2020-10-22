@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -132,6 +132,8 @@
                                             <button type="button" class="likedheart" id="{{ post.id + my_string }}" alt="{{ post.id }}" title="{{ user_info.id }}"></button>
                                         {%endif %}
                                     </span>
+
+                                    <div id="numberoflike" hidden>{{ post.number_of_reaction }}</div>
 
                                     {% set num = 'num' %}
                                     {% if post.number_of_reaction != "0" %}

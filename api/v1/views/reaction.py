@@ -26,9 +26,12 @@ def post_like(post_id):
     new= Reaction()
     for k , v in mydata.items():
         setattr(new, k, v)
-    new.save() 
-    print(new)
-    return make_response(jsonify(new.to_dict()), 201)
+    new.save()
+    my_post = storage.get(Post, post_id)
+    new_react_num = my_post.number_of_reaction()
+    rep = {}
+    rep["num"] = new_react_num
+    return make_response(jsonify(rep), 200)
 
 @app_views.route('/react/<post_id>/<current_user>', methods=['DELETE'], strict_slashes=False)
 def delete_like(post_id, current_user):
@@ -40,7 +43,11 @@ def delete_like(post_id, current_user):
         react.delete()
         storage.save()
         storage.reload()
-        return make_response (jsonify({}), 200)
+        my_post = storage.get(Post, post_id)
+        new_react_num = my_post.number_of_reaction()
+        rep = {}
+        rep["num"] = new_react_num
+        return make_response (jsonify(rep), 200)
 
 
 @app_views.route('/like/<id>', methods=['DELETE'], strict_slashes=False)
@@ -66,4 +73,3 @@ def getreactions(post_id):
         userlist.append(i.source_user_id)
     mydict["users"] = userlist
     return make_response(jsonify(mydict), 200)
-    

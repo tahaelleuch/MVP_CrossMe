@@ -248,7 +248,7 @@ def get_friend_posts(user_id, page_num=0):
 
     friends_posts = []
     for friend_id in user_follows:
-        post_lst = storage.getlist_by_attr(Post, friend_id)
+        post_lst = storage.getlist_by_attr(Post, friend_id, user_id)
         friends_posts = friends_posts + post_lst
 
     if not friends_posts:

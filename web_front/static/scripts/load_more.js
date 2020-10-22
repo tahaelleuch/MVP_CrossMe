@@ -3,6 +3,50 @@ let page_num = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  //make a like function
+  $(document).on('click', '.heart', function() {
+    var post_id = $( this ).attr('alt');
+    var targ_id = $( this ).attr('title');
+    user_id = document.getElementById("myuser_id").textContent;
+
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: 'https://0.0.0.0:5002/api/v1/like/' + post_id,
+      data: JSON.stringify({'source_user_id':user_id,'target_user_id':targ_id,'post_id':post_id}),
+      success: function (data) {
+        $( '#' + post_id + 'like' ).toggleClass('likedheart').removeClass('heart');
+        $( '#' + post_id + 'num' ).empty();
+        if (data.num != "0") {
+          $( '#' + post_id + 'num' ).append(
+            '<div class="liked"><h1>' + data.num + '</h1></div>'
+          );
+        }
+      }
+    });
+  });
+
+  $(document).on('click', '.likedheart', function() {
+    var post_id = $( this ).attr('alt');
+    var targ_id = $( this ).attr('title');
+    user_id = document.getElementById("myuser_id").textContent;
+
+    $.ajax({
+      url: 'https://0.0.0.0:5002/api/v1/react/' + post_id + '/' + user_id,
+      type: 'DELETE',
+      success: function (data) {
+        $( '#' + post_id + 'like' ).toggleClass('heart').removeClass('likedheart');
+        $( '#' + post_id + 'num' ).empty();
+        if (data.num != "0") {
+          $( '#' + post_id + 'num' ).append(
+            '<div class="liked"><h1>' + data.num + '</h1></div>'
+          );
+        }
+      }
+    });
+  });
+
+
   //function to post a new post
   $(document).on('click', '.subbtn', function() {
     user_id = document.getElementById("myuser_id").textContent;
@@ -69,6 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
         $( '.loadmore button' ).remove()
         let pst_src;
         let img_src;
+        let btnnow;
+        let nmlike;
         for (const i in response.data) {
 
           if (response.data[i].post_source === "FACEBOOK") {
@@ -83,13 +129,30 @@ document.addEventListener('DOMContentLoaded', function () {
             pst_src = '<div class="postsource" id="fromcm"></div>'
           }
 
-          console.log(response.data[i].media_url)
 
           if ( response.data[i].media_url != "nomedia") {
             img_src = '<img src="' + response.data[i].media_url +
             '" alt="postimage" class="postimage">'
           } else {
             img_src = " "
+          }
+
+          if ( response.data[i].react_status == "0" ) {
+            btnnow = '<button type="button" class="heart" id="' + response.data[i].id +
+            'like" alt="' + response.data[i].id +
+            '" title="' + response.data[i].user_id + '"></button>'
+          } else {
+            btnnow = '<button type="button" class="likedheart" id="' + response.data[i].id +
+            'like" alt="' + response.data[i].id +
+            '" title="' + response.data[i].user_id + '"></button>'
+          }
+
+          if ( response.data[i].number_of_reaction != "0") {
+            nmlike = '<div class="liked"><h1>' +
+            response.data[i].number_of_reaction +
+            '</div></h1>'
+          } else {
+            nmlike = " "
           }
 
           $( '.mybody' ).append(
@@ -101,7 +164,12 @@ document.addEventListener('DOMContentLoaded', function () {
             '</div>' +
             '<div class="postinfo"><div class="message"><p>' + response.data[i].post_text + '</p>' +
             img_src +
-            '</div></div></div>'
+            '</div></div>' +
+            '<div id="post.user_id" hidden>' + response.data[i].user_id + '</div>' +
+            '<div class="reaction"><div class="like"><span class="rect1">' + btnnow +
+            '</span><span class="rect1"><div class="likenum" id="' + response.data[i].id + 'num">'
+            + nmlike +
+            '</div></span></div></div></div>'
           )
         }
         if (response.data.length === 10) {

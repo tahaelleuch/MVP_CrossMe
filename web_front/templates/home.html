@@ -61,6 +61,42 @@
 
 
                         </div>
+
+                        <div id="post.user_id" hidden>{{ post.user_id }}</div>
+
+                        <div class="reaction">
+                                <div class="like">
+                                    <span class="rect1">
+                                        {% set my_string = 'like' %}
+                                        {% if post.react_status == "0" %}
+                                            <button type="button" class="heart" id="{{ post.id + my_string }}" alt="{{ post.id }}" title="{{ post.user_id }}"></button>
+                                        {%endif %}
+                                        {% if post.react_status == "1" %}
+                                            <button type="button" class="likedheart" id="{{ post.id + my_string }}" alt="{{ post.id }}" title="{{ post.user_id }}"></button>
+                                        {%endif %}
+                                    </span>
+
+
+                                    {% set num = 'num' %}
+                                    {% if post.number_of_reaction != "0" %}
+                                        <span class="rect1">
+                                            <div class="likenum" id="{{ post.id + num }}">
+                                                <div class="liked">
+                                                    <h1>{{ post.number_of_reaction }}</h1>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    {% else %}
+                                        <span class="rect1">
+                                            <div class="likenum" id="{{ post.id + num }}"></div>
+                                        </span>
+                                    {%endif %}
+                                </div>
+                        </div>
+
+
+
+
                     </div>
             {% endfor %}
          {%endif %}

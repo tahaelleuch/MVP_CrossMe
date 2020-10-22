@@ -251,5 +251,3 @@ class DBStorage():
                 if user_id == value.source_user_id:
                     return value
         return None
-
-

@@ -35,7 +35,6 @@ def home():
         user_dict = user.to_dict()
         user_id = user_dict["id"]
 
-        user = storage.get(User, user_id)
 
         user_follows = user.follow_list()
 
@@ -47,7 +46,7 @@ def home():
 
         friends_posts = []
         for friend_id in user_follows:
-            post_lst = storage.getlist_by_attr(Post, friend_id)
+            post_lst = storage.getlist_by_attr(Post, friend_id, user_id)
             friends_posts = friends_posts + post_lst
 
         if not friends_posts:
@@ -299,7 +298,6 @@ def CMsearch():
                                            result=[],
                                            me=user_id)
             strsplitted = pattern.upper().split()
-            allusers =  storage.all(User)
             my_list = []
             for i in allusers.values():
                 if i.full_name.upper() == pattern.upper():
