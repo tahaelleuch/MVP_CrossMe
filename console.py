@@ -8,9 +8,10 @@ from models.user import User
 from models.base_model import BaseModel
 from models.post import Post
 from models.follow import Follow
+from models.reaction import Reaction
 import shlex
 
-classes = {"User": User, "BaseModel": BaseModel, "Post": Post, "Follow": Follow}
+classes = {"User": User, "BaseModel": BaseModel, "Post": Post, "Follow": Follow, "Reaction": Reaction}
 
 class CMCommand(cmd.Cmd):
     """ HBNH console """

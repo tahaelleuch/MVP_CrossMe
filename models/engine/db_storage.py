@@ -10,9 +10,10 @@ from models.base_model import BaseModel, Base
 from models.user import User
 from models.post import Post
 from models.follow import Follow
+from models.reaction import Reaction
 import models
 
-classes = {"User": User, "Post": Post, "Follow": Follow}
+classes = {"User": User, "Post": Post, "Follow": Follow, "Reaction": Reaction}
 
 class DBStorage():
     """DBStorage class"""
@@ -173,7 +174,7 @@ class DBStorage():
 
         return count
 
-    def getlist_by_attr(self, cls, user_id):
+    def getlist_by_attr(self, cls, user_id, follower_id=None):
         """
         get all posts of a user by user_id
         """
@@ -184,7 +185,17 @@ class DBStorage():
         list_val = []
         for value in all_cls.values():
             if value.user_id == user_id:
-                list_val.append(value.to_dict())
+                if cls == Post:
+                    new_post_dict = value.to_dict()
+                    new_post_dict["number_of_reaction"] = value.number_of_reaction()
+                    if follower_id is not None:
+                        if value.check_if_user_reacted(follower_id):
+                            new_post_dict["react_status"] = "1"
+                        else:
+                            new_post_dict["react_status"] = "0"
+                    list_val.append(new_post_dict)
+                else:
+                    list_val.append(value.to_dict())
 
         if cls == Post:
             models.storage.sort_posts(list_val)
@@ -198,4 +209,19 @@ class DBStorage():
         my_new_list.sort(key=lambda date: date["creation_date"])
         my_new_list.reverse()
         return my_new_list
+
+    def get_react(self, cls, post_id, user_id):
+        """
+        get reaction obj
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if value.post_id == post_id:
+                if user_id == value.source_user_id:
+                    return value
+        return None
+
 

@@ -260,4 +260,89 @@
     box-shadow: 0px 3px 10px rgba(0,0,0,.25);
 }
 
+.rect1{
+    display: inline-block;
+}
+
+.like{
+    margin-top:10px;
+}
+
+.heart {
+  border: none;
+  width:40px;
+  height:40px;
+  background:
+   radial-gradient(circle at 60% 65%, #EBE4E3 64%, transparent 65%) top left,
+   radial-gradient(circle at 40% 65%, #EBE4E3 64%, transparent 65%) top right,
+   linear-gradient(to bottom left, #EBE4E3 43%,transparent 43%) bottom left ,
+   linear-gradient(to bottom right,#EBE4E3 43%,transparent 43%) bottom right;
+  background-size:50% 50%;
+  background-repeat:no-repeat;
+  display:inline-block;
+}
+.heart::before {
+  content:"";
+  display:block;
+  padding-top:100%;
+}
+
+.heart:hover {
+  background:
+   radial-gradient(circle at 60% 65%, #FF9786 64%, transparent 65%) top left,
+   radial-gradient(circle at 40% 65%, #FF9786 64%, transparent 65%) top right,
+   linear-gradient(to bottom left, #FF9786 43%,transparent 43%) bottom left ,
+   linear-gradient(to bottom right,#FF9786 43%,transparent 43%) bottom right;
+  background-size:50% 50%;
+  background-repeat:no-repeat;
+  display:inline-block;
+  cursor: pointer;
+}
+
+.heart:focus {
+    outline:0;
+}
+
+
+.likedheart {
+  border: none;
+  width:40px;
+  height:40px;
+  background:
+   radial-gradient(circle at 60% 65%, #FF5757 64%, transparent 65%) top left,
+   radial-gradient(circle at 40% 65%, #FF5757 64%, transparent 65%) top right,
+   linear-gradient(to bottom left, #FF5757 43%,transparent 43%) bottom left ,
+   linear-gradient(to bottom right,#FF5757 43%,transparent 43%) bottom right;
+  background-size:50% 50%;
+  background-repeat:no-repeat;
+  display:inline-block;
+}
+.likedheart::before {
+  content:"";
+  display:block;
+  padding-top:100%;
+}
+
+.likedheart:hover {
+  background:
+   radial-gradient(circle at 60% 65%, #FF8585 64%, transparent 65%) top left,
+   radial-gradient(circle at 40% 65%, #FF8585 64%, transparent 65%) top right,
+   linear-gradient(to bottom left, #FF8585 43%,transparent 43%) bottom left ,
+   linear-gradient(to bottom right,#FF8585 43%,transparent 43%) bottom right;
+  background-size:50% 50%;
+  background-repeat:no-repeat;
+  display:inline-block;
+  cursor: pointer;
+}
+
+.likedheart:focus {
+    outline:0;
+}
+
+.liked h1 {
+    height: 10px;
+    color: #FF5757;
+    font-size: 20px;
+    padding-bottom:10px;
+}
 

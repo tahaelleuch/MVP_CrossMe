@@ -62,6 +62,7 @@
                 </div>
             {%endif %}
             <div id="myuser_id" hidden>{{ user_info.id }}</div>
+            <div id="current_user_id" hidden>{{ current_user_id }}</div>
         </div>
 
         <div class="posts">
@@ -78,6 +79,11 @@
             {% if all_user_post is not none %}
                 {% for post in all_user_post %}
                     <div class="mypost" id="{{ post.id }}">
+
+                        {% set okok = 'okok' %}
+                        <div id="{{ post.id + okok }}" hidden>{{ post.number_of_reaction }}</div>
+
+
                         {% if post.post_source == "FACEBOOK" %}
                             <div class="postsource" id="fromfb">
                                 <img src="/static/images/fb.png" alt="fb" class="smico">
@@ -111,8 +117,37 @@
                                     <img src="{{ post.media_url }}" alt="postimage" class="postimage">
                                 {%endif %}
                             </div>
+                        </div>
+
+                        <div class="reaction">
 
 
+                                <div class="like">
+                                    <span class="rect1">
+                                        {% set my_string = 'like' %}
+                                        {% if post.react_status == "0" %}
+                                            <button type="button" class="heart" id="{{ post.id + my_string }}" alt="{{ post.id }}" title="{{ user_info.id }}"></button>
+                                        {%endif %}
+                                        {% if post.react_status == "1" %}
+                                            <button type="button" class="likedheart" id="{{ post.id + my_string }}" alt="{{ post.id }}" title="{{ user_info.id }}"></button>
+                                        {%endif %}
+                                    </span>
+
+                                    {% set num = 'num' %}
+                                    {% if post.number_of_reaction != "0" %}
+                                        <span class="rect1">
+                                            <div class="likenum" id="{{ post.id + num }}">
+                                                <div class="liked">
+                                                    <h1>{{ post.number_of_reaction }}</h1>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    {% else %}
+                                        <span class="rect1">
+                                            <div class="likenum" id="{{ post.id + num }}"></div>
+                                        </span>
+                                    {%endif %}
+                                </div>
                         </div>
                     </div>
 

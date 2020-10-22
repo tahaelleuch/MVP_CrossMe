@@ -91,11 +91,22 @@ def render_profile(user_id):
     user = storage.get(User, user_id)
     user_info = user.to_dict()
 
-    all_user_post = storage.getlist_by_attr(Post, user_id)
+    if "email" in session:
+        my_email = session['email']
+        my_user = storage.getbyemail(User, my_email)
+        my_id = my_user.id
+
+        all_user_post = storage.getlist_by_attr(Post, user_id, my_id)
+    else:
+        all_user_post = storage.getlist_by_attr(Post, user_id)
 
     number_of_followers = storage.follower_number(Follow, user_id)
 
     if "email" in session:
+
+        my_email = session['email']
+        my_user = storage.getbyemail(User, my_email)
+        my_id = my_user.id
 
         current_user_email = session['email']
 
@@ -107,7 +118,8 @@ def render_profile(user_id):
                                    all_user_post=all_user_post,
                                    is_user="ok",
                                    follow_code=follow_code,
-                                   number_of_followers=number_of_followers)
+                                   number_of_followers=number_of_followers,
+                                   current_user_id=my_id)
 
         else:
             my_current_user = storage.getbyemail(User, current_user_email)
@@ -119,7 +131,7 @@ def render_profile(user_id):
                     rev_obj = storage.get_by_two(Follow, user_id, current_user_id)
                     if rev_obj:
                         if follow_obj.follow_code == 1 and rev_obj.follow_code == 1:
-                            follow_code == "1"
+                            follow_code = "1"
                         elif rev_obj.follow_code == 1:
                             follow_code = "2"
             else:
@@ -128,21 +140,21 @@ def render_profile(user_id):
                 if rev_obj:
                     if follow_obj:
                         if follow_obj.follow_code == 1 and rev_obj.follow_code == 1:
-                            follow_code == "1"
+                            follow_code = "1"
                         elif rev_obj.follow_code == 1:
                             follow_code = "2"
                     else:
                         follow_code = "2"
 
 
-            print (follow_code)
             return render_template('profile.html',
                                    cache_id=str(uuid.uuid4()),
                                    user_info=user_info,
                                    all_user_post=all_user_post,
                                    is_user="notok",
                                    follow_code=follow_code,
-                                   number_of_followers=number_of_followers)
+                                   number_of_followers=number_of_followers,
+                                   current_user_id=my_id)
 
     return render_template('profile.html',
                            cache_id=str(uuid.uuid4()),

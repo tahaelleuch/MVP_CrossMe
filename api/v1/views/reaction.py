@@ -30,6 +30,19 @@ def post_like(post_id):
     print(new)
     return make_response(jsonify(new.to_dict()), 201)
 
+@app_views.route('/react/<post_id>/<current_user>', methods=['DELETE'], strict_slashes=False)
+def delete_like(post_id, current_user):
+    """
+    Delete a like
+    """
+    if request.method == 'DELETE':
+        react = storage.get_react(Reaction, post_id, current_user)
+        react.delete()
+        storage.save()
+        storage.reload()
+        return make_response (jsonify({}), 200)
+
+
 @app_views.route('/like/<id>', methods=['DELETE'], strict_slashes=False)
 def deletebyid(id):
     """deletebyid"""
