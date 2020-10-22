@@ -298,6 +298,7 @@ def CMsearch():
                                            result=[],
                                            me=user_id)
             strsplitted = pattern.upper().split()
+            allusers = storage.all(User)
             my_list = []
             for i in allusers.values():
                 if i.full_name.upper() == pattern.upper():
