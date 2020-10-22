@@ -298,11 +298,11 @@ def CMsearch():
                                            cache_id=uuid.uuid4(),
                                            result=[],
                                            me=user_id)
-            strsplitted = pattern.split()
+            strsplitted = pattern.upper().split()
             allusers =  storage.all(User)
             my_list = []
             for i in allusers.values():
-                if i.full_name == pattern:
+                if i.full_name.upper() == pattern.upper():
                     if i.id in followinglist:
                         rslt["status"] = "ok"
                     else:
@@ -312,7 +312,7 @@ def CMsearch():
                     rslt = {}
                 else:
                     for j in strsplitted:
-                        if j in i.full_name.split():
+                        if j in i.full_name.upper().split():
                             if i.id in followinglist:
                                 rslt["status"] = "ok"
                             else:

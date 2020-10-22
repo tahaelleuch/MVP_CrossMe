@@ -131,7 +131,7 @@ class DBStorage():
 
         all_cls = models.storage.all(cls)
         for value in all_cls.values():
-            if (value.email == email):
+            if (value.email.upper() == email.upper()):
                 return value
 
         return None
