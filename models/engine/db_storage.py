@@ -11,9 +11,11 @@ from models.user import User
 from models.post import Post
 from models.follow import Follow
 from models.reaction import Reaction
+from models.tokens import Token
+
 import models
 
-classes = {"User": User, "Post": Post, "Follow": Follow, "Reaction": Reaction}
+classes = {"User": User, "Post": Post, "Follow": Follow, "Reaction": Reaction, "Token": Token}
 
 class DBStorage():
     """DBStorage class"""
@@ -89,6 +91,32 @@ class DBStorage():
         all_cls = models.storage.all(cls)
         for value in all_cls.values():
             if (value.id == id):
+                return value
+
+        return None
+
+    def checkbysecurecode(self, userid, securecode):
+        """
+        Returns the object of class Token
+        """
+
+
+        all_cls = models.storage.all(Token)
+        for value in all_cls.values():
+            if value.securecode == securecode and value.user_id == userid:
+                return value
+
+        return None
+
+    def checkbysecurecode(self, userid, securecode):
+        """
+        Returns the object of class Token
+        """
+
+
+        all_cls = models.storage.all(Token)
+        for value in all_cls.values():
+            if value.securecode == securecode and value.user_id == userid:
                 return value
 
         return None

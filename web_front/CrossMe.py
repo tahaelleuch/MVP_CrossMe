@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, json, url_for, redirect, flas
 from flask import make_response, jsonify
 from flask_login import LoginManager, UserMixin, login_required, login_user, current_user
 import uuid
+from models.tokens import Token
 from models import storage
 from models.user import User
 from models.post import Post
@@ -185,6 +186,7 @@ def render_me():
 @app.route('/login',methods=['GET', 'POST'])
 def logg():
     if request.method == 'POST':
+        storage.reload()
         if request.form['email'] and request.form['password']:
             req_data = request.form.to_dict()
             users = storage.getbyemail(User, request.form['email'])
@@ -358,6 +360,24 @@ def del_follow(followed_id):
             succ["status"] = "ok"
             return make_response(jsonify(succ), 200)
     return redirect('/profile/' + followed_id)
+
+@app.route('/setting',methods=['GET'])
+def settingpahe():
+    """setting page"""
+    if request.method == "GET":
+        if "email" in session:
+            user_email = session['email']
+            user_obj = storage.getbyemail(User, user_email)
+            newstr = str(uuid.uuid4()).replace("-", "")
+            print(user_obj.id)
+            print(user_obj.as_dict())
+            print(newstr)
+            tokenobj = Token()
+            tokenobj.user_id=user_obj.id
+            tokenobj.securecode=newstr
+            tokenobj.save()
+            return redirect('/me')
+    return redirect('/')
 
 
 if __name__ == "__main__":
