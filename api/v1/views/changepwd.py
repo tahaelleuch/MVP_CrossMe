@@ -38,7 +38,5 @@ def changeme():
     n= userobj.hashpwd(mydata['newpwd'])
     userobj.password=n
     userobj.save()
-    a.securecode="no"
-    a.save()
-    print(a.to_dict())
+    a.delete()
     return make_response(jsonify(userobj.to_dict()), 201)
