@@ -1,14 +1,27 @@
 header {
-    background: white;
+background: rgb(34,145,173);
+background: -moz-linear-gradient(340deg, rgba(34,145,173,0.052258403361344574) 15%, rgba(38,187,207,0.5060399159663865) 33%, rgba(33,140,168,0.6208858543417367) 52%, rgba(33,140,168,0.42200630252100846) 64%, rgba(252,89,85,0.43601190476190477) 74%, rgba(252,89,85,0.1390931372549019) 100%);
+background: -webkit-linear-gradient(340deg, rgba(34,145,173,0.052258403361344574) 15%, rgba(38,187,207,0.5060399159663865) 33%, rgba(33,140,168,0.6208858543417367) 52%, rgba(33,140,168,0.42200630252100846) 64%, rgba(252,89,85,0.43601190476190477) 74%, rgba(252,89,85,0.1390931372549019) 100%);
+background: linear-gradient(340deg, rgba(34,145,173,0.052258403361344574) 15%, rgba(38,187,207,0.5060399159663865) 33%, rgba(33,140,168,0.6208858543417367) 52%, rgba(33,140,168,0.42200630252100846) 64%, rgba(252,89,85,0.43601190476190477) 74%, rgba(252,89,85,0.1390931372549019) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2291ad",endColorstr="#fc5955",GradientType=1);
     height: 80px;
     width: 100%;
     border-bottom: 1px solid #CCCCCC;
     margin-bottom: 50px;
+    display: block;
 }
 
 header .logo {
-     left: 20px;
-    height: 100%;
+    left: 20px;
+    width: 20%;
+    height:auto;
+}
+
+.logo img{
+    margin-top: 5px;
+    height:50px;
+    width:auto;
+    margin-left: 5px;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Satisfy&display=swap');
@@ -19,4 +32,146 @@ header .logo p{
     margin-top: -10px;
     font-size: 300%;
     color: #FF5757;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+#nav p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 25px;
+}
+
+.myheaderimg {
+    width: 25px;
+    height: 25px;
+}
+
+
+.topnav {
+  margin-top: -55px;
+  overflow: hidden;
+}
+
+.topnav a {
+  margin-top:5px;
+  font-family: 'Open Sans', sans-serif;
+  float: right;
+  display: block;
+  color: #FF5757;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.topnav a:hover {
+  background-color: #fff5f5;
+  opacity: 0.8;
+  color: black;
+  border-radius: 10px;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 950px) {
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #ffadad;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+    background-color: #fff5f5;
+  }
+  .topnav.responsive a:hover{
+    border-radius:0;
+    opacity:1;
+    background-color: #ffadad;
+  }
+}
+
+.imgsearch {
+    width: 10px;
+    height: 10px;
+}
+
+.myform {
+    margin-left: 220px;
+}
+
+
+#mysearch{
+    margin-top:25px;
+    height: 20px;
+    margin-left: -35px;
+    border: none;
+    background: none;
+}
+
+
+#mysearch:hover{
+    background-color: white;
+    border-radius:40px;
+    cursor: pointer;
+    border: 0.5px solid;
+}
+
+
+.mysearchin {
+    height: 40px;
+    padding: 20px;
+    border-radius:20px;
+    width:300px;
+    border: none;
+    background-color: #fff5f5;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.15);
+    margin-bottom:10px;
+}
+
+.mysearchin:hover {
+    cursor: pointer;
+    border: 0.5px solid;
+}
+
+.mysearchin:focus {
+    outline:0;
+    border: 0.5px solid;
+}
+
+@media screen and (max-width: 950px) {
+  .mysearchin {
+    width:300px;
+    margin-top:10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mysearchin {
+    width:50%;
+    margin-top:10px;
+  }
+}
+
+body {
+    background: rgb(191,191,191);
+background: linear-gradient(90deg, rgba(191,191,191,0.4864320728291317) 0%, rgba(193,226,235,0.2595413165266106) 38%, rgba(214,204,203,0.11668417366946782) 69%, rgba(219,219,219,0.4920343137254902) 100%);
 }
