@@ -1,3 +1,23 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+}
+body{
+  margin: 0px !important;
+  padding-top: 130px;
+}
+.header-helper {
+    background: #e4e4e4;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
 .profileinfo {
     background-color: #F0FFFF;
     padding-top: 20px;

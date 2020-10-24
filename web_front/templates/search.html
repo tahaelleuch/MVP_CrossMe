@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CrossMe</title>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <title>CrossMe</title>
+     <link rel="icon" type="image/png" href="/static/images/favicon.png"/>
+     <link rel="stylesheet" type="text/css" href="../static/styles/profile_body.css?{{cache_id}}">
     <link rel="stylesheet" type="text/css" href="../static/styles/my.css?{{ cache_id }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
     <link rel="stylesheet" type="text/css" href="../static/styles/profile_header.css?{{cache_id}}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -33,6 +34,8 @@
 
         </div>
     </header>
+              <div class="header-helper"></div>
+
      {% if result is none %}
     <div class="container"> No user Found  </div>
     {% elif result == [] %}
@@ -44,12 +47,12 @@
     <div class="avat"> <img src={{i.user.user_avatar}} class="imageprofile"> </div>
     <div class="userfullname"><a href="/profile/{{i.user.id}}"> {{i.user.full_name}}</a></div>
       {% if i.status == "no" %}
-    <button alt="{{i.user.id}}" id="{{i.user.id}}" class="follow-button">+ Follow</button>
+    <button type="button" alt="{{i.user.id}}" id="{{i.user.id}}" class="follow-button">+ Follow</button>
 
-    <button hidden alt="{{i.user.id}}" id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed </button>	
+    <button hidden type="button" alt="{{i.user.id}}" id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed </button>	
         {% else %}
-          <button alt="{{i.user.id}}" id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed</button>	
-    <button hidden alt="{{i.user.id}}" id="{{i.user.id}}" class="follow-button">+ Follow</button>
+          <button type="button" alt="{{i.user.id}}" id="{{ 'hi' ~ i.user.id}}"  class="follwed">Followed</button>	
+    <button  type="button" hidden alt="{{i.user.id}}" id="{{i.user.id}}" class="follow-button">+ Follow</button>
         {% endif %}
 
     </div>
