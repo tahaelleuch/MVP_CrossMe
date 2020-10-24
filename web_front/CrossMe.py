@@ -199,10 +199,8 @@ def logg():
                 session['email'] = request.form['email']
                 if not a["fb_access_token"] and not a["ig_access_token"]:
                     return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
-                elif not a["fb_access_token"] and not a["ig_access_token"]:
-                    return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info=session['email'])
                 else:
-                    return render_template('home.html', cache_id=uuid.uuid4(), user=session['email'])
+                    return redirect('/')
             else:
                 return render_template('index.html', cache_id=uuid.uuid4(), error="Invalid Details")
         else:

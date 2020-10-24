@@ -11,6 +11,8 @@ function checkLoginState() {
       accessToken = response.authResponse.accessToken;
       ScrapData();
       $('.myfacebook').hide();
+      $('.nextbtn').hide();
+      $(" .waiting ").show();
     }
   });
 }
@@ -20,12 +22,16 @@ function ScrapData() {
     $.get('https://0.0.0.0:5001/fb_post/'+ user_id + '/' + accessToken, function (response) {
       if (response) {
         console.log(response);
+        $('.nextbtn').show();
+        $(" .waiting ").hide();
       }
     });
   });
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  $(" .waiting ").hide();
   user_id = document.getElementById("myuser_id").textContent
   if (window.location.href.indexOf('?code=') < 0) {
     $( '.insta button' ).click(function() {
@@ -64,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       $('.steptwo').append('<div class="getMyImage"><button type="button">Click here to get your Facebook Photo</button></div>')
     }
+    $('.steptwo').append('<div class="finbtn"><button type="button" onclick="location.href=\'/\'">Finish</button></div>');
     $('.getMyImage button').click(function() {
         $.get('https://0.0.0.0:5001/profile_pic/' + user_id + '/' + accessToken, function (response) {
             if (response.mycode == "ok") {
