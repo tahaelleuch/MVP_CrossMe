@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>CrossMe</title>
+      <link rel="icon" type="image/png" href="/static/images/favicon.png"/>
+      <link rel="stylesheet" type="text/css" href="../static/styles/profile_body.css?{{cache_id}}">
+      <link rel="stylesheet" type="text/css" href="../static/styles/my.css?{{ cache_id }}">
+      <link rel="stylesheet" type="text/css" href="../static/styles/footer.css?{{ cache_id }}">
+      <link rel="stylesheet" type="text/css" href="../static/styles/profile_header.css?{{cache_id}}">
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="../static/scripts/index.js?{{ cache_id }}"></script>
+      <script type="text/javascript" src="../static/scripts/register.js?{{ cache_id }}"></script>
+      <script type="text/javascript" src="../static/scripts/searchfollow.js?{{cache_id}}"></script>
+      <script type="text/javascript" src="../static/scripts/header.js?{{cache_id}}"></script>
+      <script type="text/javascript" src="../static/scripts/setting.js?{{cache_id}}"></script>
+   </head>
+   <body>
+      <header>
+         <div class="logo"><img src="/static/images/Logo-2.png"></div>
+         <div class="topnav" id="myTopnav">
+            <form class="myform" method="POST">
+               <input type="search" name="pt" placeholder="Search CrossMe" class="mysearchin">
+               <button type="submit" id="mysearch"><img src="/static/images/search.png" class="imgsearch"></button>
+            <form>
+               <a href="/logout">Log Out</a>
+               <a href="/settings">Settings</a>
+               <a href="/me">Profile</a>
+               <a href="/">Home</a>
+               <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+               <img src="/static/images/header.png" alt="image" class="myheaderimg">
+               </a>
+         </div>
+      </header>
+      <div class="header-helper"></div>
+      <div class="sett"> 
+      <section class="filters">
+      <div style="display: table-row; height: 100px;">
+      <div class="left"> 
+      <p id = "general"> <img class="capimg" />General</p>
+      <p id = "security">Security</p>
+      </div>
+      <div class="right"> 
+      <div class="Generalsetting">
+      <h2 class="uiHeaderTitle">General Account Settings</h2>
+      <form post="#">
+      <div class="form-row">
+      <div class="form-group">
+      <label for="sd">Full Name :</label>
+      <input type="text" id="name" value="{{me.full_name}}" required="">
+      </div>
+      </div>
+      <div class="form-row">
+      <div class="form-group">
+      <label for="name">Email Address :</label>
+      <input type="text"  id="email" value={{me.email}} required="">
+      </div>
+      </div>
+            <div class="message"></div>
+      <button class="generalsettingsave" type=button id="save">Save</button>
+
+      </form>
+      </div>
+      <div class="securitysetting" hidden>
+      <h2 class="uiHeaderTitle" >Security</h2>
+      <form action="#">
+      <div class="form-row">
+      <div class="form-group">
+      <label for="name">Old Password :</label>
+      <input type="Password" id="oldpwd" required="">
+      </div>
+      </div>
+      <div class="form-row">
+      <div class="form-group">
+      <label for="name">New Password :</label>
+      <input type="Password" id="pwd"  required="">
+      </div>
+      </div>
+      <div class="form-row">
+      <div class="form-group">
+      <label for="name">Confirm your password :</label>
+      <input type="Password" id="confirmation"  required="">
+      </div>
+      </div>
+      <div class="message"></div>
+      <button class="pwdsettingsave" type=button id="save">Save</button>
+      </form>
+      </div>
+      </div>        </div>
+      </section>
+      </div>
+      <footer>
+         {% block footer %}
+         <div class="myfoot">
+            <p>Powered by Foued Lamine And Taha Elleuch</p>
+            <div id="myuser_id" hidden>{{ me.id }}</div>
+            <div id="token" hidden>{{ token }}</div>
+         </div>
+         {% endblock %}
+      </footer>
+   </body>
+</html>

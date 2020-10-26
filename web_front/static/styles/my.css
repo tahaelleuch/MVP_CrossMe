@@ -71,3 +71,146 @@ cursor: hand;
   height: 30px;
   cursor: hand;		    
   }
+
+  .container .follwed {
+    color: #524949;
+    position:absolute;
+    right: 400px;
+    font-family: "Helvetica";
+    font-size: 10pt;
+    border: 1px solid;
+    border-color: #524949;
+    border-radius: 3px;
+    background-color: #ffffff;
+    width: 85px;
+    height: 30px;
+    cursor: hand;		    
+    }
+    .sett {
+      width: 70%;
+      height: 300px;
+      margin-bottom: 30px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white;
+      border-radius: 4px;
+      }
+    .filters
+{
+    background-color: white;
+    height: inherit;
+    width: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    position: relative;
+    display: table;
+  
+}
+    .left{
+      width: 20%; 
+      height: inherit; 
+      display: table-cell;
+      border-right: 1px solid #DDDDDD;
+      
+  }
+  .right{
+    margin-left: 0%; 
+    height: inherit;
+    display: table-cell
+  }
+  .uiHeaderTitle{
+    color: #1c1e21;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 24px;
+    border-bottom: solid 1px;
+    border-bottom-color: #DDDDDD;
+}
+.imgWrap
+{
+  align-items: center;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  padding-right: 12px;
+  width: 28px;
+}
+.left p{
+  display: block;
+  font-size: 20px;
+    font-weight: 600;
+    line-height: 20px;
+    padding-left: 20px;
+}
+.left p:hover {
+  background-color: #504d4d5e;
+  opacity: 0.8;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  height: 25px;
+}
+.fde{
+  background-color: #504d4d5e;
+  opacity: 0.8;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  height: 25px;
+}
+form {
+  display: block;
+}
+input {   
+   -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+  color: -internal-light-dark(black, white);
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  margin: 0em;
+  font: 400 13.3333px Arial;
+  padding: 1px 2px;
+  border-width: 2px;
+  border-style: inset;
+  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(195, 195, 195));
+  border-image: initial;
+  text-align: start;
+
+}
+.form-row {
+  margin: 15px;
+}
+label {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: montserrat;
+  margin-bottom: 2px;
+  line-height: 1.8;
+  flex-grow: 1;
+  margin: 20px;
+
+}
+.message {
+  margin: 20px;
+  color: red;
+  font-size: 20px;
+  text-align: -webkit-auto;
+}
+button#save {
+  float: right;
+  padding: 10px;
+  margin: 20px;
+}
+.active {
+  background-color: #504d4d5e;
+  opacity: 0.8;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  height: 25px;
+  }

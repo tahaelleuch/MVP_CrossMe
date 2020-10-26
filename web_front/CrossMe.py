@@ -364,10 +364,11 @@ def del_follow(followed_id):
             return make_response(jsonify(succ), 200)
     return redirect('/profile/' + followed_id)
 
-@app.route('/setting',methods=['GET'])
+@app.route('/settings',methods=['GET', 'POST'])
 def settingpahe():
     """setting page"""
     if request.method == "GET":
+        storage.reload()
         if "email" in session:
             user_email = session['email']
             user_obj = storage.getbyemail(User, user_email)
@@ -379,7 +380,10 @@ def settingpahe():
             tokenobj.user_id=user_obj.id
             tokenobj.securecode=newstr
             tokenobj.save()
-            return redirect('/me')
+            return render_template('settings.html',
+                               cache_id=uuid.uuid4(),
+                               me=user_obj,
+                               token=newstr)
     return redirect('/')
 
 

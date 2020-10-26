@@ -34,9 +34,10 @@ def changeme():
     b = userobj.as_dict()
     verif = User().verify_password(mydata['password'], b["password"])
     if not verif:
-        return make_response(jsonify({'error': 'false pwd'}), 401)
+        return make_response(jsonify({'error': 'Wrong password , Please try again'}), 401)
     n= userobj.hashpwd(mydata['newpwd'])
     userobj.password=n
     userobj.save()
     a.delete()
-    return make_response(jsonify(userobj.to_dict()), 201)
+    a.save()
+    return make_response(jsonify({'success': 'Done !'}), 201)
