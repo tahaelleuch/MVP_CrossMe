@@ -21,12 +21,25 @@ def resource_not_found(e):
     return  render_template('404.html'), 404
 
 
+def before_request_func():
+    try:
+        newmail=storage.get(User, session['id'])
+        if newmail:
+            session.update({'email':newmail.email})
+    except:
+        pass
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def home():
     """
     serve home page
+    """
+    """        try:
+            if session['id']:
+                newmail=storage.get(User, session['id'])
+                session['email']=newmail.mail
+                print(session)
     """
     if "email" in session:
         ten_post = []
@@ -368,14 +381,13 @@ def del_follow(followed_id):
 def settingpahe():
     """setting page"""
     if request.method == "GET":
+        before_request_func()
         storage.reload()
         if "email" in session:
             user_email = session['email']
             user_obj = storage.getbyemail(User, user_email)
+            session['id'] = user_obj.id
             newstr = str(uuid.uuid4()).replace("-", "")
-            print(user_obj.id)
-            print(user_obj.as_dict())
-            print(newstr)
             tokenobj = Token()
             tokenobj.user_id=user_obj.id
             tokenobj.securecode=newstr

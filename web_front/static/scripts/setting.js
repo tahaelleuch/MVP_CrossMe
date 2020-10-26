@@ -43,7 +43,8 @@ $(document).ready(() => {
                 },
                     success: function () {
                         $('.message').text("Done !");
-                        window.location.replace('/logout')
+                        location.reload(true);
+                        
                     }
                     
               });

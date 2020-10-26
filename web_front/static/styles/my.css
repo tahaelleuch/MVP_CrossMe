@@ -192,8 +192,14 @@ label {
   font-family: montserrat;
   margin-bottom: 2px;
   line-height: 1.8;
-  flex-grow: 1;
-  margin: 20px;
+  display:inline-block;
+  *display: inline;     /* for IE7*/
+  zoom:1;              /* for IE7*/
+  float: left;
+  padding-top: 5px;
+  text-align: left;
+  width: 140px;
+
 
 }
 .message {
