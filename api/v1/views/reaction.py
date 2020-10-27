@@ -9,6 +9,8 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, make_response, jsonify,request,abort
 from uuid import UUID
+from models.notification import Notification
+from datetime import datetime
 
 @app_views.route('/like/<post_id>', methods=['POST'], strict_slashes=False)
 def post_like(post_id):
@@ -27,6 +29,17 @@ def post_like(post_id):
     for k , v in mydata.items():
         setattr(new, k, v)
     new.save()
+
+
+    new_notif = Notification()
+    new_notif.reciver_user_id = mydata["target_user_id"]
+    new_notif.maker_user_id = mydata["source_user_id"]
+    new_notif.type = "like"
+    new_notif.reaction_id = str(new.id)
+    new_notif.creation_date = datetime.utcnow()
+    new_notif.save()
+
+
     my_post = storage.get(Post, post_id)
     new_react_num = my_post.number_of_reaction()
     rep = {}

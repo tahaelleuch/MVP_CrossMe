@@ -175,3 +175,122 @@ body {
     background: rgb(191,191,191);
 background: linear-gradient(90deg, rgba(191,191,191,0.4864320728291317) 0%, rgba(193,226,235,0.2595413165266106) 38%, rgba(214,204,203,0.11668417366946782) 69%, rgba(219,219,219,0.4920343137254902) 100%);
 }
+
+
+.notifimg {
+    width:30px;
+    height:30px;
+}
+
+#notif p {
+    background-color: red;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    color: white;
+    margin-top: -47px;
+    margin-left: 15px;
+    padding:2px;
+}
+
+.notifpopup {
+    display: block;
+    position: fixed;
+    background-color: #ff5a5f;
+    height: 460px;
+    width:350px;
+    border-radius: 20px;
+    margin-left: 50%;
+    margin-top: -48px;
+    padding: 10px;
+    border: 2px solid #EBE4E3;
+    opacity: 0.9;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.95);
+}
+
+
+.morenotif {
+    color: #EBE4E3;
+    text-align: center;
+}
+
+.morenotif:hover {
+    color: #ff5a5f;
+    cursor:pointer;
+    background-color: #e6d7d5;
+    border-radius: 20px;
+}
+
+
+.onenotif {
+    border-radius:20px;
+    width:100%;
+    height:100px;
+    background-color: #EBE4E3;
+    margin-top:5px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.15);
+}
+
+.onenotif:hover {
+    background-color: #e6d7d5;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.35);
+    cursor:pointer;
+}
+
+.notiffriend {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+}
+
+.notiffriend img {
+    border-radius: 50%;
+    width : 70px;
+    height: 70px;
+    margin: 15px;
+}
+
+.notiftext {
+    width: 200px;
+    margin-top: -80px;
+    margin-left: 110px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+.notiftext p {
+    font-size:12px;
+    font-family: 'Nunito', sans-serif;
+    margin-top: -7px;
+}
+
+
+
+.notiftext h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size:15px;
+    color: #ff5a5f;
+}
+
+.delnotif {
+    font-family: 'Nunito', sans-serif;
+    margin-left: 320px;
+    margin-top: -50px;
+    font-size: 20px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap');
+
+.notiftext h3 {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 7px;
+    color: #9D9D9D;
+    margin-top: -8px;
+}
+

@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../static/scripts/my_profile.js?{{cache_id}}"></script>
     <script type="text/javascript" src="../static/scripts/follow.js?{{cache_id}}"></script>
+    <script type="text/javascript" src="../static/scripts/header.js?{{cache_id}}"></script>
 </head>
 <body>
     <header>
@@ -23,6 +24,10 @@
              <a href="/settings">Settings</a>
                 <a href="/me">Profile</a>
             <a href="/">Home</a>
+                <a href="javascript:void(0);" id="notif" class="closed">
+               <img src="/static/images/notif.png" class="notifimg">
+               <p>1</p>
+             </a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                <img src="/static/images/header.png" alt="image" class="myheaderimg">
             </a>
@@ -31,6 +36,8 @@
     </header>
               <div class="header-helper"></div>
 
+    <div class="notifpopup">
+     </div>
     <article class="mybody">
 
 

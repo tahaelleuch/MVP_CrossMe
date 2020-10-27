@@ -12,6 +12,7 @@ from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.follow import Follow
 from models.post import Post
+from models.notification import Notification
 
 class User(BaseModel, Base):
     """Representation of user"""
@@ -66,3 +67,8 @@ class User(BaseModel, Base):
         post_list = []
         for obj in post_list:
             post_list.append(obj)
+
+    def notification_list(self):
+        """get all notifications of a user"""
+        user_notifs = models.storage.get_all_user_notif(Notification ,self.id)
+        return user_notifs

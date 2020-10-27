@@ -12,10 +12,13 @@ from models.post import Post
 from models.follow import Follow
 from models.reaction import Reaction
 from models.tokens import Token
+from models.notification import Notification
 
 import models
 
-classes = {"User": User, "Post": Post, "Follow": Follow, "Reaction": Reaction, "Token": Token}
+classes = {"User": User, "Post": Post, "Follow": Follow,
+           "Reaction": Reaction, "Token": Token,
+           "Notification": Notification}
 
 class DBStorage():
     """DBStorage class"""
@@ -251,3 +254,30 @@ class DBStorage():
                 if user_id == value.source_user_id:
                     return value
         return None
+
+    def get_all_user_notif(self, cls, user_id):
+        """
+        get a list of all user notification
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        notif_list = []
+        for value in all_cls.values():
+            if value.reciver_user_id == user_id:
+                notif_list.append(value.to_dict())
+        notif_list.sort(key=lambda date: date["creation_date"])
+        notif_list.reverse()
+        return notif_list
+
+    def get_notif_by_object_id(self, cls, obj_id):
+        """
+        get the notification by it object id
+        """
+        if cls not in classes.values():
+            return None
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if value.object_id == obj_id:
+                return value

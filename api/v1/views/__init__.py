@@ -12,3 +12,4 @@ from api.v1.views.follow import *
 from api.v1.views.reaction import *
 from api.v1.views.changepwd import *
 from api.v1.views.changeinformations import *
+from api.v1.views.notification import *

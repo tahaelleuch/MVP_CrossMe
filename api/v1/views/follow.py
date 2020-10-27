@@ -17,6 +17,7 @@ from flask import Flask, make_response, request, jsonify, redirect
 from uuid import UUID
 from datetime import datetime
 from models import storage
+from models.notification import Notification
 
 my_secret = "onetwo"
 
@@ -74,6 +75,15 @@ def make_new_follow(follower_id, followed_id, the_secret):
         new_follow.follow_code = 1
         new_follow.creation_date = datetime.utcnow()
         new_follow.save()
+
+        new_notif = Notification()
+        new_notif.reciver_user_id = followed_id
+        new_notif.maker_user_id = follower_id
+        new_notif.type = "follow"
+        new_notif.follow_id = str(new_follow.id)
+        new_notif.creation_date = datetime.utcnow()
+        new_notif.save()
+
         succ = {}
         succ["status"] = "ok"
         return make_response(jsonify(succ), 200)

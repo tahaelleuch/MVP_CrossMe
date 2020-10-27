@@ -8,6 +8,8 @@ from models.base_model import BaseModel, Base, DateTime
 import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey, Integer
 from datetime import datetime
+from sqlalchemy.orm import relationship
+from models.notification import Notification
 
 
 
@@ -18,6 +20,9 @@ class Follow(BaseModel, Base):
     follower_id = Column(String(60), ForeignKey('user.id'), nullable=False)
     creation_date = Column(DateTime, nullable=True, default=datetime.utcnow())
     follow_code = Column(Integer, nullable=False, default=0)
+    notification = relationship("Notification",
+                                backref="follow",
+                                cascade="all, delete, delete-orphan")
 
     def get_status_code(self, follower, followed):
         """get status code of user"""
