@@ -201,7 +201,9 @@ def render_me():
     User will be redirected by it id to his profile
     """
     if "email" in session:
+        storage.reload()
         user_email = session['email']
+        print(user_email)
         me_user = storage.getbyemail(User, user_email)
         user_id = me_user.id
         NEWURL = '/profile/' + user_id
@@ -283,8 +285,8 @@ def signUp():
         token.save()
         body = "registration.html"
         subj = "Welcome  to CrossMe Platform"
-        m = Mailings(body, subj, new, token)
-        m.send()
+        #m = Mailings(body, subj, new, token)
+        #m.send()
         my_user = storage.getbyemail(User, request.form['email'])
         return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:
@@ -405,15 +407,22 @@ def del_follow(followed_id):
 def settingpahe():
     """setting page"""
     if request.method == "GET":
-        before_request_func()
         storage.reload()
+        Token.delete_expired()
+        storage.save()
         if "email" in session:
+            print()
             user_email = session['email']
             user_obj = storage.getbyemail(User, user_email)
-            session['id'] = user_obj.id
+            try:
+                session['id'] = user_obj.id
+            except:
+                session['id']= session['id']
+                user_obj = storage.get(User, str(session['id']))
+            before_request_func()
             newstr = str(uuid.uuid4()).replace("-", "")
             tokenobj = Token()
-            tokenobj.user_id=user_obj.id
+            tokenobj.user_id=session['id']
             tokenobj.securecode=newstr
             tokenobj.save()
             return render_template('settings.html',

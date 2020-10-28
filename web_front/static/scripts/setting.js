@@ -42,9 +42,10 @@ $(document).ready(() => {
                     $('.message').text(err.error);
                 },
                     success: function () {
-                        $('.message').text("Done !");
                         location.reload(true);
-                        
+                        $('.message').text("Done !");
+                        //window.location.href = '/logout';
+
                     }
                     
               });
