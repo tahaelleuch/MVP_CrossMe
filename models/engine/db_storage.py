@@ -13,12 +13,12 @@ from models.follow import Follow
 from models.reaction import Reaction
 from models.tokens import Token
 from models.notification import Notification
-
+from models.emailtoken import Emailsecurity
 import models
 
 classes = {"User": User, "Post": Post, "Follow": Follow,
            "Reaction": Reaction, "Token": Token,
-           "Notification": Notification}
+           "Notification": Notification, "Emailsecurity": Emailsecurity}
 
 class DBStorage():
     """DBStorage class"""

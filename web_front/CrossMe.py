@@ -3,11 +3,12 @@
 
 from flask import Flask, render_template, request, json, url_for, redirect, flash, session
 from flask import make_response, jsonify
-from flask_login import LoginManager, UserMixin, login_required, login_user, current_user
 import uuid
 from models.tokens import Token
 from models import storage
+from web_front.mailcrossme import Mailings
 from models.user import User
+from models.emailtoken import Emailsecurity
 from models.post import Post
 from models.follow import Follow
 from flask_cors import CORS
@@ -88,6 +89,21 @@ def home():
 
     return render_template('index.html', cache_id=uuid.uuid4())
 
+@app.route('/confirmation/<token>', strict_slashes=False, methods=['get'])
+def emailconfirmation(token):
+    """
+    confirmation of email
+    in inscription by token
+    """
+    storage.reload()
+    Emailsecurity.delete_expired()
+    a = storage.get(Emailsecurity, str(token))
+    if a is None:
+        return render_template('confirm.html', cache_id=uuid.uuid4(), a= 0)
+    storage.delete(a)
+    storage.save()
+    return render_template('confirm.html', cache_id=uuid.uuid4(), a=1)
+        
 
 @app.route('/profile/<user_id>', strict_slashes=False)
 def render_profile(user_id):
@@ -261,6 +277,14 @@ def signUp():
         new.auth = True
         session['email'] = request.form['email']
         new.save()
+        token = Emailsecurity()
+        token.email = request.form['email']
+        print(token.id)
+        token.save()
+        body = "registration.html"
+        subj = "Welcome  to CrossMe Platform"
+        m = Mailings(body, subj, new, token)
+        m.send()
         my_user = storage.getbyemail(User, request.form['email'])
         return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:

@@ -38,4 +38,6 @@ def change_user_informations():
     userobj.email=mydata["email"]
     userobj.full_name=mydata["name"]
     userobj.save()
+    storage.delete(a)
+    storage.save()
     return make_response(jsonify({'success': 'Done !'}), 201)

@@ -38,6 +38,6 @@ def changeme():
     n= userobj.hashpwd(mydata['newpwd'])
     userobj.password=n
     userobj.save()
-    a.delete()
-    a.save()
+    storage.delete(a)
+    storage.save()
     return make_response(jsonify({'success': 'Done !'}), 201)
