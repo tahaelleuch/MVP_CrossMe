@@ -285,8 +285,8 @@ def signUp():
         token.save()
         body = "registration.html"
         subj = "Welcome  to CrossMe Platform"
-        #m = Mailings(body, subj, new, token)
-        #m.send()
+        m = Mailings(body, subj, new, token)
+        m.send()
         my_user = storage.getbyemail(User, request.form['email'])
         return render_template('steptwo.html', cache_id=uuid.uuid4(), user_info= my_user)
     else:
@@ -330,7 +330,10 @@ def CMsearch(the_search=None):
             my_list = []
             my_user = storage.getbyemail(User, pattern)
             if my_user:
-                rslt["status"] = "ok"
+                if my_user in followinglist:
+                    rslt["status"] = "ok"
+                else:
+                    rslt["status"] = "no"
                 rslt["user"] = my_user
                 my_list.append(rslt)
                 return render_template('search.html',
