@@ -154,6 +154,7 @@ header {
     cursor: pointer;
     border: 0;
     border-radius: 4px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.25);
 }
 
 .button i {
@@ -196,7 +197,7 @@ header {
     display: inline-block;
 }
 .feature_image img {
-    max-width: 70px;
+    max-width: 200px;
 }
 .feature_disc {
 
@@ -391,4 +392,37 @@ footer p {
    .hero_content h1 {
     font-size: 32px;
 }
+}
+
+
+.myprofileimg {
+    border-radius:50%;
+    padding:10px;
+}
+
+.mycol {
+    width:30%;
+}
+
+#foued {
+    margin-left:40%
+}
+
+.nav {
+    width:1%;
+    position: fixed;
+    border:none;
+    margin-left:98%;
+    margin-top: 200px;
+}
+
+.nav a {
+    font-size: 20px;
+    text-decoration: none;
+    height:5px;
+    color: #ff5757;
+}
+
+.nav a:hover {
+    color: #f7cfc8;
 }
